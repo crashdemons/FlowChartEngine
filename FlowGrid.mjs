@@ -158,10 +158,11 @@ export default class FlowGrid extends FlowDrawable{
         return undefined;
     }
     updateCanvas(){
-        this.canvas.style.width=window.innerWidth+"px";
-        this.canvas.style.height=window.innerHeight+"px";
-        this.canvas.width=window.innerWidth;
-        this.canvas.height=window.innerHeight;
+        let CCBR = this.$container[0].getBoundingClientRect()
+        this.canvas.style.width=CCBR.width+"px";
+        this.canvas.style.height=CCBR.height+"px";
+        this.canvas.width=CCBR.width;
+        this.canvas.height=CCBR.height;
     }
 
     getChildPosition(el){
