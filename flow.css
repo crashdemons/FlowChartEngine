@@ -1,0 +1,112 @@
+.flow-box{
+    border:1px solid black;
+    min-width:100px;
+    min-height:75px;
+    display:inline-block;
+    background: rgb(170,170,170);
+    background: linear-gradient(346deg, rgba(170,170,170,1) 0%, rgba(196,196,196,1) 35%, rgba(236,236,236,1) 100%);
+    border-radius: 0.25em;
+    border:1px outset gray;
+    box-shadow: 2px 2px 20px 5px rgba(0,0,0,0.25);
+}
+.flow-port{
+    border-radius:50%;
+    border:2px solid gray;
+    background-color:white;
+    width:8px;
+    height:8px;
+    z-index:100;
+}
+.flow-port-in{
+    border:2px solid darkorange;
+}
+.flow-port-out{
+
+    border:2px solid #338533;
+}
+.flow-port:hover{
+    Xborder:2px solid red;
+    scale:1.1;
+    box-shadow: 0px 0px 5px 0px rgba(23, 247, 7, 0.25);
+}
+
+.flow-node{
+    position:relative;
+    display:inline-grid;
+    grid-template-columns: 9px auto 9px;
+    grid-template-rows: 9px auto 9px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+.flow-node-ports{
+}
+.flow-node-ports-h{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.flow-node-ports-v{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.flow-node-ports-top{
+    grid-area: 1/2 / 1/2;
+    Xbackground-color: rgba(255, 255, 0, 0.1);
+}
+
+.flow-node-ports-left{
+    grid-area: 2/1 / 2/1;
+    Xbackground-color: rgba(255, 0, 0, 0.1);
+}
+.flow-node-ports-right{
+    grid-area: 2/3 / 2/3;
+    Xbackground-color: rgba(0, 128, 0, 0.1);
+}
+.flow-node-ports-bottom{
+    grid-area: 3/2 / 3/2;
+    Xbackground-color: rgba(0, 0, 255, 0.1);
+}
+.flow-node-box-center{
+    grid-area: 2/2 / 2/2;
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.flow-node-ports-top .flow-port{
+    margin-top: +4px;
+}
+.flow-node-ports-bottom .flow-port{
+    margin-top: -4px;
+}
+
+
+.flow-edge{
+    height: 2px !important;
+    border-radius: 0.25em;
+    z-index: 1;
+
+}
+.flow-edge:hover{
+    border:2px solid #38a5f5;;
+    box-shadow: 0px 0px 5px 0px rgba(7,189,247,0.75);
+}
+.flow-grid,.flow-grid *{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+.flow-grid{
+    background-color: rgba(128, 128, 0, 0.18);
+    border:0 !important;
+    padding: 0 !important;
+}
+.flow-canvas-position-fix{
+    position:relative;top:0;left:0;width:0;height:0;
+}
+.flow-canvas{
+    background-color:#262626;z-index:-1; left:0; top:0; position:relative;
+}
+
+body{
+    background-color: white;
+}
