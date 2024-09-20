@@ -3,6 +3,8 @@ import FlowNode from "./parts/FlowNode.mjs";
 import Point from "./geometry/Point.mjs";
 import FlowConnection from "./parts/FlowConnection.mjs";
 import Rect from "./geometry/Rect.mjs";
+import Dimensions from "./geometry/Dimensions.mjs";
+import Viewport from "./geometry/Viewport.js";
 
 export default class FlowGrid extends FlowDrawable{
     /** @type {Window} */
@@ -27,10 +29,11 @@ export default class FlowGrid extends FlowDrawable{
         this.jQuery=jQuery;
         this.attachToContainer($containerElem);
         window.addEventListener('mousemove',(e)=>{
-            let pt = new Point(e.clientX,e.clientY);
-            pt.subtractOffset(this.containerPos)
-            pt.addOffset(this.containerScroll);
-            this.mousePt=pt;
+            let ptOuter = new Point(e.clientX,e.clientY);
+            let ptInner = this.viewport.pointOuterToInner(ptOuter);
+            //pt.subtractOffset(this.containerPos)
+           //pt.addOffset(this.containerScroll);
+            this.mousePt=ptInner;
 
             //console.log("mouse",pt);
         })
@@ -158,53 +161,88 @@ export default class FlowGrid extends FlowDrawable{
         return undefined;
     }
     updateCanvas(){
-        let CCBR = this.$container[0].getBoundingClientRect()
+        let CCBR = this.getContainerDimensions();
+        let scale = this.containerScale.width;
+        CCBR.width/=scale;
+        CCBR.height/=scale;
+
+        this.canvas.style.width=CCBR.width+"px";
         this.canvas.style.width=CCBR.width+"px";
         this.canvas.style.height=CCBR.height+"px";
         this.canvas.width=CCBR.width;
         this.canvas.height=CCBR.height;
     }
 
-    getChildPosition(el){
-        return FlowGrid.#getRelativeElementPos(this.$container,el);
+    getChildInnerPos(el){
+        console.log("GCP",el);
+        return this.#getElementInnerPos(el);
     }
     get containerPos(){
-        let cbcr = this.$container[0].getBoundingClientRect();
-        console.debug("ABCR",cbcr);
+        let cbcr = this.containerRect;
+        //console.debug("ABCR",cbcr);
         let coff=Rect.fromDOMRect(cbcr).p1;
         return coff;
     }
+    get viewport(){
+        let rect = this.containerRect;
+        let el = this.$container[0];
+        return new Viewport(rect.x,rect.y,rect.width,rect.height,el.offsetWidth,el.offsetHeight,el.scrollLeft,el.scrollTop);
+        //return new Viewport()
+    }
+
+
     get containerScroll(){
         return new Point(this.$container[0].scrollLeft,this.$container[0].scrollTop)
     }
 
-
+    get containerRect(){
+        return this.$container[0].getBoundingClientRect();
+    }
+    getContainerDimensions(){
+        let rect = this.containerRect;
+        return new Dimensions(rect.width,rect.height);
+    }
+    get containerScale(){
+        let rect = this.containerRect;
+        return new Dimensions(rect.width/this.$container[0].offsetWidth , rect.height/this.$container[0].offsetHeight);
+    }
 
     /**
      * @param {JQuery<HTMLElement>|HTMLElement|null} el
      * @returns {Point|null}
      */
-    static #getElementPos(el) {
+    #getElementOuterPos(el) {
         if(!el)  return null;
         if(!(el instanceof HTMLElement)) el = el[0];//resolve jQuery to HTMLElement
         let bcr = el.getBoundingClientRect();
-        console.debug("BCR",el,bcr.left,bcr.top);
+        console.debug("BCR",el,bcr.left,bcr.top,el.offsetLeft,el.offsetTop);
         let pt = Rect.fromDOMRect(bcr).p1;
-        console.debug("BCR2",pt.x,pt.y);
+        console.debug("getElementPos",el,pt.x,pt.y);
         return pt;
     }
-    static #getRelativeElementPos(container,el){
+    #getElementInnerPos(el){
+        if(!el) return null;
+        let outerPt = this.#getElementOuterPos(el);
+        console.log("GEIP",el,outerPt);
+        let innerPt = this.viewport.pointOuterToInner(outerPt);
+        return innerPt;
+        /*
         //return FlowConnection.#getElementPos(el);
         if(!container || !el) return null;
         if(!(container instanceof HTMLElement)) container = container[0];//resolve jQuery to HTMLElement
-        let cbcr = container.getBoundingClientRect();
-        console.debug("ABCR",container,cbcr);
-        let coff=Rect.fromDOMRect(cbcr).p1;
-        let off = FlowGrid.#getElementPos(el);
-        off.subtractOffset(coff)
-        off.add(container.scrollLeft,container.scrollTop);
+        let containerRect = container.getBoundingClientRect();
+
+        console.debug("ABCR",container,containerRect,container.offsetWidth,container.offsetHeight);
 
 
-        return off;
+        let containerPos=Rect.fromDOMRect(containerRect).p1;
+        let elementPos = FlowGrid.#getElementPos(el);
+        elementPos.subtractOffset(containerPos)
+        //elementPos.add(container.scrollLeft,container.scrollTop);
+
+
+        console.debug("getRelativeElementPos",el,elementPos);
+        return elementPos;
+        */
     }
 }

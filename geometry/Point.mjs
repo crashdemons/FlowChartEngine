@@ -31,10 +31,10 @@ export default class Point{
      * @returns {this}
      */
     addOffset(offset){
-        console.log("add offset",this.x,this.y,offset.x,offset.y);
+        //console.log("add offset",this.x,this.y,offset.x,offset.y);
         this.x+=offset.x;
         this.y+=offset.y;
-        console.log("add offset2",this.x,this.y);
+        //console.log("add offset2",this.x,this.y);
         return this;
     }
     /**
@@ -43,10 +43,10 @@ export default class Point{
      * @returns {this}
      */
     subtractOffset(offset){
-        console.log("sub offset",this.x,this.y,offset.x,offset.y);
+        //console.log("sub offset",this.x,this.y,offset.x,offset.y);
         this.x-=offset.x;
         this.y-=offset.y;
-        console.log("sub offset2",this.x,this.y);
+        //console.log("sub offset2",this.x,this.y);
         return this;
     }
 
@@ -60,6 +60,18 @@ export default class Point{
 
     clone(){
         return  Point.fromPointlike(this);
+    }
+
+    multiply(fx,fy=null){
+        if(fy===null) fy=fx;
+        this.x*=fx;
+        this.y*=fy;
+        return this;
+    }
+    divide(fx,fy=null){
+        if(fy===null) fy=fx;
+        this.multiply(1/fx,1/fy);
+        return this;
     }
 }
 

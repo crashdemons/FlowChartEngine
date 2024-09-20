@@ -6,4 +6,11 @@ export default class Dimensions{
         this.height = height;
     }
 
+
+    multiply(fx,fy=null){
+        if(fy===null) fy=fx;
+        this.width*=fx;
+        this.height*=fy;
+    }
+
 }
