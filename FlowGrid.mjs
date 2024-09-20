@@ -161,7 +161,7 @@ export default class FlowGrid extends FlowDrawable{
         return undefined;
     }
     updateCanvas(){
-        let CCBR = this.getContainerDimensions();
+        let CCBR = this.getContainerOuterDims();
         let scale = this.containerScale.width;
         CCBR.width/=scale;
         CCBR.height/=scale;
@@ -177,33 +177,33 @@ export default class FlowGrid extends FlowDrawable{
         console.log("GCP",el);
         return this.#getElementInnerPos(el);
     }
-    get containerPos(){
-        let cbcr = this.containerRect;
+    get containerOuterPos(){
+        let cbcr = this.containerOuterRect;
         //console.debug("ABCR",cbcr);
         let coff=Rect.fromDOMRect(cbcr).p1;
         return coff;
     }
     get viewport(){
-        let rect = this.containerRect;
+        let rect = this.containerOuterRect;
         let el = this.$container[0];
         return new Viewport(rect.x,rect.y,rect.width,rect.height,el.offsetWidth,el.offsetHeight,el.scrollLeft,el.scrollTop);
         //return new Viewport()
     }
 
 
-    get containerScroll(){
+    get containerInnerScroll(){
         return new Point(this.$container[0].scrollLeft,this.$container[0].scrollTop)
     }
 
-    get containerRect(){
+    get containerOuterRect(){
         return this.$container[0].getBoundingClientRect();
     }
-    getContainerDimensions(){
-        let rect = this.containerRect;
+    getContainerOuterDims(){
+        let rect = this.containerOuterRect;
         return new Dimensions(rect.width,rect.height);
     }
     get containerScale(){
-        let rect = this.containerRect;
+        let rect = this.containerOuterRect;
         return new Dimensions(rect.width/this.$container[0].offsetWidth , rect.height/this.$container[0].offsetHeight);
     }
 
