@@ -35,7 +35,12 @@ export default class FlowEdge extends FlowDrawable{
         return $([]);
     }
 
-    renderSpline(canvas,ctx){
+    /** @param {FlowCanvas} canvas*/
+    renderSpline(canvas){
+        this.renderSpline2(canvas.element,canvas.ctx);
+    }
+
+    renderSpline2(canvas,ctx){
         // bottom right
 
         var x1 = this.lineSegment.x1;

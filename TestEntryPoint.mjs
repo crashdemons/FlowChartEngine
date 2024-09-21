@@ -7,6 +7,7 @@ import FlowOutPort from "./parts/FlowOutPort.js";
 import FlowEdge from "./primitives/FlowEdge.mjs";
 import FlowGrid from "./FlowGrid.mjs";
 import Viewport from "./geometry/Viewport.js";
+import TestScene from "./TestScene.js";
 
 export default class TestEntryPoint{
     run(window){
@@ -25,21 +26,18 @@ export default class TestEntryPoint{
         })*/
 
 
-        let grid = new FlowGrid(window,jQuery,$('.flow2'));
-        grid.prepareTestScene();
+        let scene = new TestScene(window,jQuery,$('.flow2'));
+        scene.prepareTestScene();
 
-        window.grid = grid;
+        window.scene = scene;
         function frame(){
             console.log("frame");
-            grid.updateTestScene();
-            grid.drawTestScene();
+            scene.updateTestScene();
+            scene.drawTestScene();
             window.requestAnimationFrame(frame);
         }
         window.frame=frame;
 
-        setTimeout(()=>{
-            grid.$container[0].style.scale=0.7;
-        },250)
 
 
         frame();
