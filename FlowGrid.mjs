@@ -3,7 +3,6 @@ import FlowNode from "./parts/FlowNode.mjs";
 import Point from "./geometry/Point.mjs";
 import FlowConnection from "./parts/FlowConnection.mjs";
 import Rect from "./geometry/Rect.mjs";
-import Dimensions from "./geometry/Dimensions.mjs";
 import Viewport from "./geometry/Viewport.js";
 
 export default class FlowGrid extends FlowDrawable{
@@ -158,60 +157,24 @@ export default class FlowGrid extends FlowDrawable{
 
     renderElement($, options) {
         return this.$container;
-        return undefined;
     }
     updateCanvas(){
-        let CCBR = this.getContainerOuterDims();
-        let scale = this.containerScale.width;
-        CCBR.width/=scale;
-        CCBR.height/=scale;
-
-        this.canvas.style.width=CCBR.width+"px";
-        this.canvas.style.width=CCBR.width+"px";
-        this.canvas.style.height=CCBR.height+"px";
-        this.canvas.width=CCBR.width;
-        this.canvas.height=CCBR.height;
+        let innerDims = this.viewport.innerDimensions;
+        this.canvas.style.width=innerDims.width+"px";
+        this.canvas.style.width=innerDims.width+"px";
+        this.canvas.style.height=innerDims.height+"px";
+        this.canvas.width=innerDims.width;
+        this.canvas.height=innerDims.height;
     }
 
-    getChildInnerPos(el){
-        console.log("GCP",el);
-        return this.#getElementInnerPos(el);
-    }
-    get containerOuterPos(){
-        let cbcr = this.containerOuterRect;
-        //console.debug("ABCR",cbcr);
-        let coff=Rect.fromDOMRect(cbcr).p1;
-        return coff;
-    }
     get viewport(){
-        let rect = this.containerOuterRect;
-        let el = this.$container[0];
-        return new Viewport(rect.x,rect.y,rect.width,rect.height,el.offsetWidth,el.offsetHeight,el.scrollLeft,el.scrollTop);
-        //return new Viewport()
+        return Viewport.fromElement(this.$container[0]);
     }
-
-
-    get containerInnerScroll(){
-        return new Point(this.$container[0].scrollLeft,this.$container[0].scrollTop)
-    }
-
-    get containerOuterRect(){
-        return this.$container[0].getBoundingClientRect();
-    }
-    getContainerOuterDims(){
-        let rect = this.containerOuterRect;
-        return new Dimensions(rect.width,rect.height);
-    }
-    get containerScale(){
-        let rect = this.containerOuterRect;
-        return new Dimensions(rect.width/this.$container[0].offsetWidth , rect.height/this.$container[0].offsetHeight);
-    }
-
     /**
      * @param {JQuery<HTMLElement>|HTMLElement|null} el
      * @returns {Point|null}
      */
-    #getElementOuterPos(el) {
+    getChildOuterPos(el) {
         if(!el)  return null;
         if(!(el instanceof HTMLElement)) el = el[0];//resolve jQuery to HTMLElement
         let bcr = el.getBoundingClientRect();
@@ -220,29 +183,10 @@ export default class FlowGrid extends FlowDrawable{
         console.debug("getElementPos",el,pt.x,pt.y);
         return pt;
     }
-    #getElementInnerPos(el){
+    getChildInnerPos(el){
         if(!el) return null;
-        let outerPt = this.#getElementOuterPos(el);
+        let outerPt = this.getChildOuterPos(el);
         console.log("GEIP",el,outerPt);
-        let innerPt = this.viewport.pointOuterToInner(outerPt);
-        return innerPt;
-        /*
-        //return FlowConnection.#getElementPos(el);
-        if(!container || !el) return null;
-        if(!(container instanceof HTMLElement)) container = container[0];//resolve jQuery to HTMLElement
-        let containerRect = container.getBoundingClientRect();
-
-        console.debug("ABCR",container,containerRect,container.offsetWidth,container.offsetHeight);
-
-
-        let containerPos=Rect.fromDOMRect(containerRect).p1;
-        let elementPos = FlowGrid.#getElementPos(el);
-        elementPos.subtractOffset(containerPos)
-        //elementPos.add(container.scrollLeft,container.scrollTop);
-
-
-        console.debug("getRelativeElementPos",el,elementPos);
-        return elementPos;
-        */
+        return this.viewport.pointOuterToInner(outerPt);
     }
 }

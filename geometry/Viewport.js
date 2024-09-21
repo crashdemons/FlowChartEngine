@@ -36,4 +36,14 @@ export default class Viewport{
         outerPt.addOffset(this.outerPosition);
         return outerPt;
     }
+
+    /**
+     *
+     * @param {HTMLElement} htmlElement
+     */
+    static fromElement(htmlElement){
+        let rect = htmlElement.getBoundingClientRect();
+        let el = htmlElement;
+        return new Viewport(rect.x,rect.y,rect.width,rect.height,el.offsetWidth,el.offsetHeight,el.scrollLeft,el.scrollTop);
+    }
 }
