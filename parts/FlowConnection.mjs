@@ -11,15 +11,15 @@ import Rect from "../geometry/Rect.mjs";
  *
  * With the current implementation, at least one end of the connection must be assigned to a port.  If only one is assigned, the unassigned end will track the mouse position.
  */
-export default class FlowConnection extends FlowEdge{
+export default class FlowConnection extends FlowEdge{ //TODO: abstract so we don't need directional ports?
     /** The child type-name of the connection*/
     connectionType;
     /** The input port that the connection should end at (flow to)
      * @type {FlowInPort|null}*/
-    inPort
+    inPort=null;
     /** The output port that the connection should start at (flow from).
      * @type {FlowOutPort|null}*/
-    outPort;
+    outPort=null;
 
     /**
      * Construct a new connection
@@ -43,17 +43,53 @@ export default class FlowConnection extends FlowEdge{
     }
 
     /**
+     * Connects the line segment to port at the appropriates end (in and out). If a port is already connected at that end, that end of the connection will be replaced with the new port.
+     * @param {FlowInPort} inPort
+     * @param {FlowOutPort} outPort
+     */
+    connectPorts(inPort,outPort){
+        this.connectInPort(inPort);
+        this.connectOutPort(outPort);
+    }
+    /**
+     * Connects the line segment to port at the appropriates end (in or out). If a port is already connected at that end, that end of the connection will be replaced with the new port.
+     * @param {FlowInPort} inPort
+     */
+    connectInPort(inPort){
+        this.inPort=inPort; inPort.connectEdge(this);
+    }
+    /**
+     * Connects the line segment to port at the appropriates end (in or out). If a port is already connected at that end, that end of the connection will be replaced with the new port.
+     * @param {FlowOutPort} outPort
+     */
+    connectOutPort(outPort){
+        this.outPort=outPort; outPort.connectEdge(this);
+    }
+    disconnectInPort(){
+        this.inPort?.disconnectEdge();
+        this.inPort=null;
+    }
+    disconnectOutPort(){
+        this.outPort?.disconnectEdge();
+        this.outPort=null;
+    }
+    /**
      * Connects the line segment to a port at the appropriate end (in or out). If a port is already connected at that end, that end of the connection will be replaced with the new port.
      * @param {FlowInPort|FlowOutPort} port
      */
     connectPort(port){
-        if(port instanceof FlowInPort) this.inPort=port;
-        else if(port instanceof FlowOutPort) this.outPort = port;
+        if(port instanceof FlowInPort) this.connectInPort(port)
+        else if(port instanceof FlowOutPort) this.connectOutPort(port)
+        console.log("connection",this,port);
     }
     /** Using an ID value, disconnect the line segment from the corresponding Port, leaving one end unassigned */
     disconnectPort(id){
-        if(this.inPort.id===id) this.inPort=null;
-        else if(this.outPort.id===id) this.outPort=null;
+        if(this.inPort?.id===id) this.disconnectInPort();
+        else if(this.outPort?.id===id) this.disconnectOutPort();
+    }
+    disconnectPorts(){
+        this.disconnectInPort();
+        this.disconnectOutPort();
     }
 
 
