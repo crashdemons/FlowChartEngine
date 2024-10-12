@@ -3,7 +3,7 @@ import FlowDrawable from "./FlowDrawable.mjs";
 
 /**
  * A flowchart object representing the inner visual box or "card" of a node.  It is not positioned as it is intended to be contained within a {@link FlowNode}
- * @abstract */
+  */
 export default class FlowBox extends FlowDrawable{
     /** The child type-name of the box object */
     boxType;

@@ -16,8 +16,13 @@ import FlowObject from "../primitives/FlowObject.mjs";
  * NOTE: it is not necessary to render attached ports or boxes contained by this node, only the containing Node itself.
  *
  */
-export default class FlowNode extends FlowBox{
-    //TODO: maybe Box should be sub-component and not inherited from?
+export default class FlowNode extends FlowDrawable{
+    /**
+     * The inner "box"/card visual element of the flowchart node.
+     * @type {FlowBox}
+     */
+    box;
+
     /** The child type-name of the Node */
     nodeType;
 
@@ -36,6 +41,7 @@ export default class FlowNode extends FlowBox{
     get ports(){ return [...this.inPorts,...this.outPorts]}
     constructor(nodeType,id=null) {
         super('node',id);
+        this.box = new FlowBox('node-box',id?'nb-'+id:null);
         this.nodeType=nodeType;
     }
 
@@ -101,7 +107,7 @@ export default class FlowNode extends FlowBox{
         $grid.append($bottom);
 
         //render the inner "box"/card element of the Node.
-        let $box = super.renderElement($);
+        let $box = this.box.render($);
         $box.addClass("flow-node-box-center");
         $box.removeAttr('id');
 
