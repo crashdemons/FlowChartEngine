@@ -1,5 +1,4 @@
 .flow-box{
-    border:1px solid black;
     min-width:100px;
     min-height:75px;
     display:inline-block;
@@ -25,7 +24,6 @@
     border:2px solid #338533;
 }
 .flow-port:hover{
-    Xborder:2px solid red;
     scale:1.5;
     box-shadow: 0px 0px 5px 0px rgba(23, 247, 7, 0.25);
 }
@@ -52,24 +50,19 @@
 }
 .flow-node-ports-top{
     grid-area: 1/2 / 1/2;
-    Xbackground-color: rgba(255, 255, 0, 0.1);
 }
 
 .flow-node-ports-left{
     grid-area: 2/1 / 2/1;
-    Xbackground-color: rgba(255, 0, 0, 0.1);
 }
 .flow-node-ports-right{
     grid-area: 2/3 / 2/3;
-    Xbackground-color: rgba(0, 128, 0, 0.1);
 }
 .flow-node-ports-bottom{
     grid-area: 3/2 / 3/2;
-    Xbackground-color: rgba(0, 0, 255, 0.1);
 }
 .flow-node-box-center{
     grid-area: 2/2 / 2/2;
-    background-color: rgba(128, 128, 128, 0.1);
 }
 
 .flow-node-ports-top .flow-port{
