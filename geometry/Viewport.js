@@ -1,19 +1,40 @@
 import Point from "./Point.mjs";
 import Dimensions from "./Dimensions.mjs";
 
-
+/**
+ * A geometric object representing a viewport through which the coordinate plane is scaled and translated.
+ *
+ * This is the mathematical component used to convert coordinates inside a scaled/scrollable DOM element/container.
+ */
 export default class Viewport{
-    /** @type {Point} */
+    /** The outer (absolute) position of the container element
+     * @type {Point} */
     outerPosition;
-    /** @type {Dimensions} */
+    /** The outer (absolute) dimensions of the container element
+     * @type {Dimensions} */
     outerDimensions;
-    /** @type {Dimensions} */
+    /** The inner (scaled) dimensions of the container's content space.
+     * @type {Dimensions} */
     innerDimensions;
-    /** @type {Point} */
+    /** A point representing the scroll X and Y position of the container's content (scrollLeft,scrollTop are DOM equivalents).
+     * @type {Point} */
     scroll;
 
-    /** @type {Dimensions} */
+    /** The scaling factors of the container's content relative to the outside.
+     * @type {Dimensions} */
     scale;
+
+    /**
+     * Constructs a viewport object from information about a container element.
+     * @param outerX The outer (absolute) position of the container element
+     * @param outerY The outer (absolute) position of the container element
+     * @param outerWidth The outer (absolute) dimensions of the container element
+     * @param outerHeight The outer (absolute) dimensions of the container element
+     * @param innerWidth The inner (scaled) dimensions of the container's content space.
+     * @param innerHeight The inner (scaled) dimensions of the container's content space.
+     * @param scrollX the scroll X position of the container's content (scrollLeft is DOM equivalent).
+     * @param scrollY the scroll Y position of the container's content (scrollTop is DOM equivalent).
+     */
     constructor(outerX,outerY,outerWidth,outerHeight,innerWidth,innerHeight,scrollX=0,scrollY=0) {
         this.outerPosition=new Point(outerX,outerY);
         this.outerDimensions=new Dimensions(outerWidth,outerHeight);
@@ -21,6 +42,12 @@ export default class Viewport{
         this.scroll = new Point(scrollX,scrollY);
         this.scale=new Dimensions(innerWidth/outerWidth,innerHeight/outerHeight);
     }
+
+    /**
+     * Converts an outer (absolute) position point to an inner (scaled/scrolled) position.
+     * @param {Point} outerPoint
+     * @returns {Point}
+     */
     pointOuterToInner(outerPoint){
         let innerPt=outerPoint.clone();
         innerPt.subtractOffset(this.outerPosition);
@@ -29,6 +56,11 @@ export default class Viewport{
         innerPt.addOffset(this.scroll);
         return innerPt;
     }
+    /**
+     * Converts an inner (scaled/scrolled) position point to an outer (absolute) position.
+     * @param {Point} innerPoint
+     * @returns {Point}
+     */
     pointInnerToOuter(innerPoint){
         let outerPt=innerPoint.clone();
         outerPt.subtractOffset(this.scroll);
@@ -38,7 +70,7 @@ export default class Viewport{
     }
 
     /**
-     *
+     * Constructs the viewport from a container DOM element
      * @param {HTMLElement} htmlElement
      */
     static fromElement(htmlElement){
