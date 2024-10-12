@@ -79,8 +79,9 @@ export default class FlowScene{
 
     /** Perform any drawing steps needed to update the display of the flowchart. This will redraw canvas-drawn objects and canvas gridlines. */
     draw(){
-        if(this.canvas) this.canvas.drawGridlines();
-        for(let drawable of this.drawables){//TODO: if(this.canvas) ?
+        if(!this.canvas) return;
+        this.canvas.drawGridlines();
+        for(let drawable of this.drawables){
             drawable.drawCanvas(this.canvas);
         }
     }
