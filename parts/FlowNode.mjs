@@ -80,11 +80,6 @@ export default class FlowNode extends FlowBox{
         let left = +this.point?.x;
         let top = +this.point?.y;
 
-        let $all = $([]);
-        for(let port of this.ports){//render the port elements
-            $all.add( port.render($) );//TODO: why are we doing this when the ports are rendered inside the CSS Grid - removing this doesn't seem to impact behavior.
-        }
-
         let $grid =super.renderElement($); //create a CSS Grid container element using a 3x3 layout
         $grid.removeClass('flow-box').addClass('flow-node');//don't inherit the Box class.
         $grid.attr('style',`left:${left}px;top:${top}px`);
@@ -113,13 +108,7 @@ export default class FlowNode extends FlowBox{
         //add it to the CSS Grid (at the center)
         $grid.append($box);
 
-
-        $all = $all.add($grid);
-        //debugger;
-
-
-
-        return $all;//TODO: why are we returning all elements instead of just the CSS Grid container?  changing this doesn't seem to impact behavior.
+        return $grid;
     }
 
 }
