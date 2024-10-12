@@ -37,12 +37,12 @@ export default class TestScene extends FlowScene{
 
 
         let testConnection = new FlowConnection('test');
-        testConnection.outPort = pout;
-        testConnection.inPort = pin;
+        testConnection.connectPorts(pin,pout);
 
         let testConnection2 = new FlowConnection('test');
-        testConnection2.outPort = pout;
-        testConnection2.inPort = null;
+        testConnection2.connectOutPort(pout);
+        //testConnection2.outPort = pout;
+        //testConnection2.inPort = null;
 
 
         this.addDrawable(n)
