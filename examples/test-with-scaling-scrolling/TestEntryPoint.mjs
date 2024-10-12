@@ -3,10 +3,10 @@ import Point from "../../geometry/Point.mjs";
 import LineSegment from "../../geometry/LineSegment.mjs";
 import FlowNode from "../../parts/FlowNode.mjs";
 import FlowInPort from "../../parts/FlowInPort.mjs";
-import FlowOutPort from "../../parts/FlowOutPort.js";
+import FlowOutPort from "../../parts/FlowOutPort.mjs";
 import FlowEdge from "../../primitives/FlowEdge.mjs";
 import FlowGrid from "../../FlowGrid.mjs";
-import Viewport from "../../geometry/Viewport.js";
+import Viewport from "../../geometry/Viewport.mjs";
 import TestScene from "./TestScene.mjs";
 
 export default class TestEntryPoint{

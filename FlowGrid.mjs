@@ -3,8 +3,8 @@ import FlowNode from "./parts/FlowNode.mjs";
 import Point from "./geometry/Point.mjs";
 import FlowConnection from "./parts/FlowConnection.mjs";
 import Rect from "./geometry/Rect.mjs";
-import Viewport from "./geometry/Viewport.js";
-import FlowCanvas from "./FlowCanvas.js";
+import Viewport from "./geometry/Viewport.mjs";
+import FlowCanvas from "./FlowCanvas.mjs";
 
 /**
  * An object representing the drawable area of a flowchart, corresponding to a container element.

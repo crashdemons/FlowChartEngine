@@ -3,7 +3,7 @@ import Point from "../geometry/Point.mjs";
 import LineSegment from "../geometry/LineSegment.mjs";
 import FlowPort from "../primitives/FlowPort.mjs";
 import FlowInPort from "./FlowInPort.mjs";
-import FlowOutPort from "./FlowOutPort.js";
+import FlowOutPort from "./FlowOutPort.mjs";
 import Rect from "../geometry/Rect.mjs";
 
 /**

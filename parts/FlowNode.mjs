@@ -1,6 +1,6 @@
 import FlowDrawable from "../primitives/FlowDrawable.mjs";
 import FlowInPort from "./FlowInPort.mjs";
-import FlowOutPort from "./FlowOutPort.js";
+import FlowOutPort from "./FlowOutPort.mjs";
 import FlowBox from "../primitives/FlowBox.mjs";
 import FlowObject from "../primitives/FlowObject.mjs";
 
