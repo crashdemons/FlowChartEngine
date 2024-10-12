@@ -1,15 +1,30 @@
 import FlowDrawable from "./primitives/FlowDrawable.mjs";
 
-
+/**
+ * An object wrapping an HTML canvas and providing useful drawing functions for a flowchart background.
+ */
 export default class FlowCanvas extends FlowDrawable{
+    /**
+     * Reference to the global jQuery object
+     * @type {jQuery | HTMLElement | (function(any, any): any) | any}
+     */
     jQuery;
-    /** @type {JQuery} */
+    /** The jQuery element of the canvas.
+     * @type {JQuery} */
     $element;
-    /** @type {HTMLCanvasElement} */
+    /** The HTML DOM element of the canvas
+     * @type {HTMLCanvasElement} */
     element;
-    /** @type {CanvasRenderingContext2D} */
+    /** The 2D Rendering Context for the canvas
+     * @type {CanvasRenderingContext2D} */
     ctx;
 
+    /**
+     * Create a new FlowCanvas
+     * @param {jQuery | HTMLElement | (function(any, any): any) | any} jQuery Reference to the global jQuery object
+     * @param {JQuery} $canvas The jQuery element of the canvas.
+     * @param {string|null} id The ID of the Flow object. Assigned a random UUID if not provided
+     */
     constructor(jQuery, $canvas,id=null) {
         super('canvas',id);
         this.jQuery=jQuery;
@@ -18,7 +33,10 @@ export default class FlowCanvas extends FlowDrawable{
         this.ctx=this.element.getContext('2d');
     }
 
-    /** @param {Viewport} viewport*/
+    /**
+     * Resize the Canvas to match the dimensions of the viewport/container element.
+     * @param {Viewport} viewport a viewport of the flowchart container element. See {@link FlowGrid}
+     * */
     fillViewport(viewport){
         let innerDims = viewport.innerDimensions;
         this.element.style.width=innerDims.width+"px";
@@ -29,8 +47,12 @@ export default class FlowCanvas extends FlowDrawable{
     }
 
     /**
-     * @param {jQuery} jQuery
-     * @param {JQuery} $container
+     * Create a new FlowCanvas inside an existing flowchart container element.
+     *
+     * This method must be used prior to adding other children to the container.
+     * When the canvas is added, a second element will be added to fix relative positioning for elements added to the container afterward.
+     * @param {jQuery | HTMLElement | (function(any, any): any) | any} jQuery Reference to the global jQuery object
+     * @param {JQuery} $container the container element the flowchart is being created in.
      */
     static createInContainer(jQuery,$container){
         let $ = jQuery;
@@ -45,6 +67,9 @@ export default class FlowCanvas extends FlowDrawable{
         return this.$element;
     }
 
+    /**
+     * Draws a series of grid lines onto the canvas, using the current element width and height.
+     */
     drawGridlines(){
         let canvas=this.element;
         let ctx = this.ctx;

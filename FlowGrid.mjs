@@ -6,21 +6,32 @@ import Rect from "./geometry/Rect.mjs";
 import Viewport from "./geometry/Viewport.js";
 import FlowCanvas from "./FlowCanvas.js";
 
+/**
+ * An object representing the drawable area of a flowchart, corresponding to a container element.
+ */
 export default class FlowGrid extends FlowDrawable{
-    /** @type {Window} */
-    window;
-    /** @type {any | jQuery | HTMLElement | (function(any, any): jQuery.init)} */
-    jQuery;
-    /** @type {JQuery} */
-    $container;
-    /** @type {FlowCanvas} */
-    canvas;
-    /** @type {Point} */
-    mousePt= Point.Zero.clone();
     /**
-     * @param {Window} window
-     * @param {jQuery} jQuery
-     * @param {JQuery} $containerElem
+     * A reference to the global Window object.
+     * @type {Window} */
+    window;
+    /** A reference to the global jQuery object
+     * @type {any | jQuery | HTMLElement | (function(any, any): jQuery.init)} */
+    jQuery;
+    /** The jQuery element of the flowchart container
+     * @type {JQuery} */
+    $container;
+    /** The Canvas object used for background drawings.
+     * @type {FlowCanvas} */
+    canvas;
+    /** An object tracking the current mouse position in the grid
+     * @type {Point} */
+    mousePt= Point.Zero.clone();
+
+    /**
+     * Create a new flowchart area.
+     * @param {Window} window A reference to the global Window object.
+     * @param {any | jQuery | HTMLElement | (function(any, any): jQuery.init)} jQuery  A reference to the global jQuery object
+     * @param {JQuery} $containerElem A jQuery element for the container to display the flowchart in.
      */
     constructor(window,jQuery,$containerElem) {
         super();
@@ -38,18 +49,24 @@ export default class FlowGrid extends FlowDrawable{
     }
 
     /**
+     * Adds an element to the flowchart
      * @param {JQuery|HTMLElement} elem
      */
     appendDrawableElement(elem){
         this.$container.append(elem);
     }
-    clearDrawables(){
+
+    /**
+     * Clears all elements from the flowchart.
+     */
+    clearDrawables(){//TODO: should we exempt the elements from FlowCanvas from being cleared?
         this.$container.empty();
     }
 
 
     /**
-     * @param {JQuery} $containerElem
+     * Attaches this grid to a container element, making the necessary modifications and child elements.
+     * @param {JQuery} $containerElem A jQuery element for the container to display the flowchart in.
      */
     attachToContainer($containerElem){
         this.$container=$containerElem;
@@ -64,26 +81,38 @@ export default class FlowGrid extends FlowDrawable{
         return this.$container;
     }
 
+    /**
+     * Gets the viewport represented by the flowchart container element
+     * @returns {Viewport}
+     */
     get viewport(){
         return Viewport.fromElement(this.$container[0]);
     }
+
     /**
-     * @param {JQuery<HTMLElement>|HTMLElement|null} el
-     * @returns {Point|null}
+     * Gets the outer (document-absolute) position of an element that exists within the flowchart.
+     * @param {JQuery<HTMLElement>|HTMLElement|null} el the child element
+     * @returns {Point|null} The position, or null if the element is null.
      */
     getChildOuterPos(el) {
         if(!el)  return null;
         if(!(el instanceof HTMLElement)) el = el[0];//resolve jQuery to HTMLElement
-        let bcr = el.getBoundingClientRect();
+        let bcr = el.getBoundingClientRect(); //the BCR is as close to an document-absolute position as you can get.
         console.debug("BCR",el,bcr.left,bcr.top,el.offsetLeft,el.offsetTop);
-        let pt = Rect.fromDOMRect(bcr).p1;
+        let pt = Rect.fromDOMRect(bcr).p1;//retrieve left,top as a point.
         console.debug("getElementPos",el,pt.x,pt.y);
         return pt;
     }
+
+    /**
+     * Gets the inner (scaled/scrolled) position of an element that exists within the flowchart.
+     * @param {JQuery<HTMLElement>|HTMLElement|null} el the child element
+     * @returns {Point|null} The position, or null if the element is null.
+     */
     getChildInnerPos(el){
         if(!el) return null;
-        let outerPt = this.getChildOuterPos(el);
+        let outerPt = this.getChildOuterPos(el);  //we can't really trust style position or other methods to be correct without work, so get the BoundingClientRect as an outer position
         console.log("GEIP",el,outerPt);
-        return this.viewport.pointOuterToInner(outerPt);
+        return this.viewport.pointOuterToInner(outerPt); //convert the outer position to inner using scaling/scrolling.
     }
 }
