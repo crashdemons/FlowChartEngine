@@ -1,5 +1,6 @@
 import FlowPort from "../primitives/FlowPort.mjs";
 
+/** A {@link FlowPort} which is marked as an "output port" */
 export default class FlowOutPort extends FlowPort{
     outType;
     constructor(outType,id=null) {
