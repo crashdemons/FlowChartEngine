@@ -19,6 +19,58 @@ export default class FlowPort extends FlowDrawable{
     /** The height of rendered ports - used in centering Edge connections */
     static Height=8;
 
+    /** An array tracking which edges are connected to this port
+     * @type {FlowEdge[]} */
+    edges=[];
+
+
+
+    /** Track the edge as connected to this port.
+     *
+     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowConnection method.
+     * @param {FlowEdge} edge */
+    connectEdge(edge){
+        let idx = this._findEdge(edge.id);
+        if(idx!==-1) return;
+        this.edges.push(edge);
+        console.log("connect port to edge",this,edge);
+    }
+
+
+    /** Untrack all attached edges from this port.
+     *
+     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowConnection method.
+     * */
+    disconnectEdges(){
+        this.edges=[];
+    }
+    /** @protected */
+    _findEdge(id){
+        for(let i=0;i<this.edges.length;i++) if(this.edges[i]?.id===id) return i;
+        return -1;
+    }
+    /** Retrieve a connected FlowEdge with a matching ID value */
+    findEdge(id){
+        for(let edge of this.edges) if(edge?.id===id) return edge;
+        return null;
+    }
+    /** Untrack the connected FlowEdge with a matching ID value
+     *
+     *
+     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowConnection method.
+     * */
+    disconnectEdge(id){
+        let idx = this._findEdge(id);
+        if(idx===-1) return;
+        this.edges.splice(idx, 1);
+    }
+
+
+
+
+
+
+
     /** The center-point position of a port, relative to its corner.  This is generally the half-width and half-height */
     static get CenterOffset(){
         return new Point(

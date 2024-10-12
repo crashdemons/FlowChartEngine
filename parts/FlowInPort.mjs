@@ -1,8 +1,7 @@
 import FlowPort from "../primitives/FlowPort.mjs";
-import FlowPortSingle from "../primitives/FlowPortSingle.mjs";
 
-/** A {@link FlowPort} which is marked as an "input port" */
-export default class FlowInPort extends FlowPortSingle{
+/** A {@link FlowPort} which is marked as a directional "input port" */
+export default class FlowInPort extends FlowPort{
     inType;
     constructor(inType,id=null) {
         super('input',id);

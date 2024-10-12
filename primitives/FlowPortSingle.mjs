@@ -1,13 +1,13 @@
 import FlowPort from "./FlowPort.mjs";
 
-/** A {@link FlowPort} which supports connection to a single edge
+/** A {@link FlowPort} which only supports connection to a single edge
  *
  * @abstract
  * */
 export default class FlowPortSingle extends FlowPort{
     /** An edge that is connected to the port, or null if there is none.
      * @type {FlowEdge|null} */
-    edge;
+    get edge(){ return this.edges[0]; }
 
     constructor(portType,id) {
         super(portType,id);
@@ -16,15 +16,15 @@ export default class FlowPortSingle extends FlowPort{
     /** Store the edge as connected to this port
      * @param {FlowEdge} edge */
     connectEdge(edge){
-        this.edge=edge;
+        this.edges=[edge];
         console.log("connect port to edge",this,edge);
     }
     /** Clear the stored edge as it has disconnected.
      *  @returns {FlowEdge|null} the previously connected edge */
     disconnectEdge(){
         let oldEdge = this.edge;
-        this.edge=null;
-        return this.edge;
+        this.edges=[];
+        return oldEdge;
     }
 
 }

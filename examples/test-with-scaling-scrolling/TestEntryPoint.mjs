@@ -1,4 +1,4 @@
-import FlowConnection from "../../parts/FlowConnection.mjs";
+import FlowConnectionDirectional from "../../parts/FlowConnectionDirectional.mjs";
 import Point from "../../geometry/Point.mjs";
 import LineSegment from "../../geometry/LineSegment.mjs";
 import FlowNode from "../../parts/FlowNode.mjs";
