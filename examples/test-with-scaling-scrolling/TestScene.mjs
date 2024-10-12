@@ -1,8 +1,8 @@
-import FlowNode from "./parts/FlowNode.mjs";
-import Point from "./geometry/Point.mjs";
-import FlowConnection from "./parts/FlowConnection.mjs";
-import FlowGrid from "./FlowGrid.mjs";
-import FlowScene from "./FlowScene.mjs";
+import FlowNode from "../../parts/FlowNode.mjs";
+import Point from "../../geometry/Point.mjs";
+import FlowConnection from "../../parts/FlowConnection.mjs";
+import FlowGrid from "../../FlowGrid.mjs";
+import FlowScene from "../../FlowScene.mjs";
 
 export default class TestScene extends FlowScene{
     constructor(window,jQuery,$containerElem) {
