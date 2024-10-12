@@ -5,6 +5,8 @@ import Dimensions from "./Dimensions.mjs";
  * A geometric object representing a viewport through which the coordinate plane is scaled and translated.
  *
  * This is the mathematical component used to convert coordinates inside a scaled/scrollable DOM element/container.
+ *
+ * NOTE: this is not related in any way to the DOM content of the "viewport" (the browser view).
  */
 export default class Viewport{
     /** The outer (absolute) position of the container element
