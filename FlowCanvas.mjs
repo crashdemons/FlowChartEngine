@@ -122,7 +122,7 @@ export default class FlowCanvas extends FlowDrawable{
      * @param y2 Y position of the second endpoint
      */
     static drawSpline(canvas,ctx,x1,y1,x2,y2){
-        console.debug("drawSpline:",x1,y1,x2,y2);
+        //console.debug("drawSpline:",x1,y1,x2,y2);
         //let $canvas = $('canvas');
         //let canvas = $canvas[0];
         //let ctx = canvas.getContext('2d');
@@ -148,8 +148,8 @@ export default class FlowCanvas extends FlowDrawable{
         ctx.shadowBlur=5;
 
 
-        console.debug("Canvas",canvas.width,canvas.height);
-        console.debug("Spline:",x1,y1,"->",mx,my,"->",x2,y2);
+        //console.debug("Canvas",canvas.width,canvas.height);
+        //console.debug("Spline:",x1,y1,"->",mx,my,"->",x2,y2);
 
         let cx1=x1;
         let cy1=y1+controlPointPull;

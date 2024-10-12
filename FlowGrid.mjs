@@ -98,9 +98,9 @@ export default class FlowGrid extends FlowDrawable{
         if(!el)  return null;
         if(!(el instanceof HTMLElement)) el = el[0];//resolve jQuery to HTMLElement
         let bcr = el.getBoundingClientRect(); //the BCR is as close to an document-absolute position as you can get.
-        console.debug("BCR",el,bcr.left,bcr.top,el.offsetLeft,el.offsetTop);
+        ///console.debug("BCR",el,bcr.left,bcr.top,el.offsetLeft,el.offsetTop);
         let pt = Rect.fromDOMRect(bcr).p1;//retrieve left,top as a point.
-        console.debug("getElementPos",el,pt.x,pt.y);
+        //console.debug("getElementPos",el,pt.x,pt.y);
         return pt;
     }
 
@@ -112,7 +112,7 @@ export default class FlowGrid extends FlowDrawable{
     getChildInnerPos(el){
         if(!el) return null;
         let outerPt = this.getChildOuterPos(el);  //we can't really trust style position or other methods to be correct without work, so get the BoundingClientRect as an outer position
-        console.debug("GEIP",el,outerPt);
+        ///console.debug("GEIP",el,outerPt);
         return this.viewport.pointOuterToInner(outerPt); //convert the outer position to inner using scaling/scrolling.
     }
 }

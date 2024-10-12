@@ -31,7 +31,7 @@ export default class TestEntryPoint{
 
         window.scene = scene;
         function frame(){
-            console.debug("frame");
+            //console.debug("frame");
             scene.update();
             scene.draw();
             window.requestAnimationFrame(frame);
