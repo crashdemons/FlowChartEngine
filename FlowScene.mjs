@@ -1,6 +1,3 @@
-import FlowDrawable from "./primitives/FlowDrawable.mjs";
-import FlowGrid from "./FlowGrid.mjs";
-
 /**
  * An object providing methods for setting up a flowchart "scene" to be displayed on a {@link FlowGrid} in a less manual fashion.
  *
@@ -22,7 +19,7 @@ import FlowGrid from "./FlowGrid.mjs";
  * {@link window.requestAnimationFrame} is recommended for setting up draw loops.
  *
  */
-export default class FlowScene{
+export default class FlowScene {
     /** A list of drawables added to the scene
      * @type {FlowDrawable[]} */
     drawables = [];
@@ -30,58 +27,59 @@ export default class FlowScene{
      * @type {FlowGrid} */
     grid = null;
 
-    /** Retrieve the {@link FlowCanvas} associated with the drawable area */
-    get canvas(){
-        return this.grid?.canvas;
-    }
-
     /** Create a new flowchart scene */
     constructor() {
     }
 
+    /** Retrieve the {@link FlowCanvas} associated with the drawable area */
+    get canvas() {
+        return this.grid?.canvas;
+    }
+
     /** Sets the FlowGrid (drawable area) associated with the scene
      * @param {FlowGrid} grid */
-    setGrid(grid){
+    setGrid(grid) {
         this.grid = grid;
     }
 
 
     /** Adds a flowchart drawable object to the scene
      * @param {FlowDrawable} obj */
-    addDrawable(obj){
+    addDrawable(obj) {
         this.drawables.push(obj);
     }
 
 
     /** Prepares flowchart objects for drawing and renders DOM-based objects to the drawable area (since they are not redrawn)*/
-    prepare(){
-        if(!this.grid) return;
+    prepare() {
+        if (!this.grid) return;
         let $ = this.grid.jQuery;
-        for(let drawable of this.drawables){
+        for (let drawable of this.drawables) {
             let elem = drawable.render($);
             this.grid.appendDrawableElement(elem);
         }
     }
+
     /** Clears drawable objects from the FlowGrid */
-    unprepare(){
-        if(!this.grid) return;
+    unprepare() {
+        if (!this.grid) return;
         this.grid.clearDrawables();
     }
 
 
     /** Recalculates the internal positioning of drawable objects, resizes the canvas, and performs other logic steps for flowchart objects */
-    update(){
+    update() {
         this.canvas.fillViewport(this.grid.viewport);
-        for(let drawable of this.drawables){
+        for (let drawable of this.drawables) {
             drawable.updatePosition(this.grid);
         }
     }
 
     /** Perform any drawing steps needed to update the display of the flowchart. This will redraw canvas-drawn objects and canvas gridlines. */
-    draw(){
-        if(!this.canvas) return;
+    draw() {
+        if (!this.canvas) return;
         this.canvas.drawGridlines();
-        for(let drawable of this.drawables){
+        for (let drawable of this.drawables) {
             drawable.drawCanvas(this.canvas);
         }
     }

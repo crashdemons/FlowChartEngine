@@ -1,9 +1,9 @@
 /**
  * A geometric object representing a 2-dimensional point
  */
-export default class Point{
+export default class Point {
     /** A reference point for (0,0) or the "origin" on the coordinate plane.  This object should be cloned rather than mutated directly.*/
-    static Zero = new Point(0,0);
+    static Zero = new Point(0, 0);
 
     /** The X-position of the point
      * @type {Number} */
@@ -17,9 +17,19 @@ export default class Point{
      * @param {Number} x
      * @param {Number} y
      */
-    constructor(x,y) {
-        this.x=x;
-        this.y=y;
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Constructs a point from an object containing an X and Y value.
+     *
+     * @param {PointLike} obj
+     * @returns {Point}
+     */
+    static fromPointlike(obj) {
+        return new Point(obj.x, obj.y);
     }
 
     /**
@@ -29,10 +39,11 @@ export default class Point{
      * @param {Number} dx
      * @param {Number} dy
      */
-    add(dx,dy){
-        this.x+=dx;
-        this.y+=dy;
+    add(dx, dy) {
+        this.x += dx;
+        this.y += dy;
     }
+
     /**
      * Shifts a point by subtracting from the X and Y positions separately.
      *
@@ -40,9 +51,9 @@ export default class Point{
      * @param {Number} dx
      * @param {Number} dy
      */
-    subtract(dx,dy){
-        this.x+=dx;
-        this.y+=dy;
+    subtract(dx, dy) {
+        this.x += dx;
+        this.y += dy;
     }
 
     /**
@@ -52,10 +63,10 @@ export default class Point{
      * @param {Point|PointLike} offset
      * @returns {this}
      */
-    addOffset(offset){
+    addOffset(offset) {
         //console.log("add offset",this.x,this.y,offset.x,offset.y);
-        this.x+=offset.x;
-        this.y+=offset.y;
+        this.x += offset.x;
+        this.y += offset.y;
         //console.log("add offset2",this.x,this.y);
         return this;
     }
@@ -67,27 +78,17 @@ export default class Point{
      * @param {Point|PointLike} offset
      * @returns {this}
      */
-    subtractOffset(offset){
+    subtractOffset(offset) {
         //console.log("sub offset",this.x,this.y,offset.x,offset.y);
-        this.x-=offset.x;
-        this.y-=offset.y;
+        this.x -= offset.x;
+        this.y -= offset.y;
         //console.log("sub offset2",this.x,this.y);
         return this;
     }
 
-    /**
-     * Constructs a point from an object containing an X and Y value.
-     *
-     * @param {PointLike} obj
-     * @returns {Point}
-     */
-    static fromPointlike(obj){
-        return new Point(obj.x,obj.y);
-    }
-
     /** Creates a new Point with equal X and Y values to the current */
-    clone(){
-        return  Point.fromPointlike(this);
+    clone() {
+        return Point.fromPointlike(this);
     }
 
     /**
@@ -97,12 +98,13 @@ export default class Point{
      * @param {Number} fx The factor to scale the X value by (for example, 0.5 will half the X value of the point)
      * @param {Number|null} fy The factor to scale the X value by.  If this is not provided or null is used, the scaling factor for X will be used so that both scale in proportion.
      */
-    multiply(fx,fy=null){
-        if(fy===null) fy=fx;
-        this.x*=fx;
-        this.y*=fy;
+    multiply(fx, fy = null) {
+        if (fy === null) fy = fx;
+        this.x *= fx;
+        this.y *= fy;
         return this;
     }
+
     /**
      * Scales the X and Y value of the point using passed factors (using division)
      *
@@ -110,9 +112,9 @@ export default class Point{
      * @param {Number} fx The factor to scale the X value by (for example, 2 will half the X value of the point)
      * @param {Number|null} fy The factor to scale the X value by.  If this is not provided or null is used, the scaling factor for X will be used so that both scale in proportion.
      */
-    divide(fx,fy=null){
-        if(fy===null) fy=fx;
-        this.multiply(1/fx,1/fy);
+    divide(fx, fy = null) {
+        if (fy === null) fy = fx;
+        this.multiply(1 / fx, 1 / fy);
         return this;
     }
 }

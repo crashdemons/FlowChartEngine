@@ -8,7 +8,7 @@ import Dimensions from "./Dimensions.mjs";
  *
  * NOTE: this is not related in any way to the DOM content of the "viewport" (the browser view).
  */
-export default class Viewport{
+export default class Viewport {
     /** The outer (absolute) position of the container element
      * @type {Point} */
     outerPosition;
@@ -37,12 +37,22 @@ export default class Viewport{
      * @param scrollX the scroll X position of the container's content (scrollLeft is DOM equivalent).
      * @param scrollY the scroll Y position of the container's content (scrollTop is DOM equivalent).
      */
-    constructor(outerX,outerY,outerWidth,outerHeight,innerWidth,innerHeight,scrollX=0,scrollY=0) {
-        this.outerPosition=new Point(outerX,outerY);
-        this.outerDimensions=new Dimensions(outerWidth,outerHeight);
-        this.innerDimensions=new Dimensions(innerWidth,innerHeight);
-        this.scroll = new Point(scrollX,scrollY);
-        this.scale=new Dimensions(innerWidth/outerWidth,innerHeight/outerHeight);
+    constructor(outerX, outerY, outerWidth, outerHeight, innerWidth, innerHeight, scrollX = 0, scrollY = 0) {
+        this.outerPosition = new Point(outerX, outerY);
+        this.outerDimensions = new Dimensions(outerWidth, outerHeight);
+        this.innerDimensions = new Dimensions(innerWidth, innerHeight);
+        this.scroll = new Point(scrollX, scrollY);
+        this.scale = new Dimensions(innerWidth / outerWidth, innerHeight / outerHeight);
+    }
+
+    /**
+     * Constructs the viewport from a container DOM element
+     * @param {HTMLElement} htmlElement
+     */
+    static fromElement(htmlElement) {
+        let rect = htmlElement.getBoundingClientRect();
+        let el = htmlElement;
+        return new Viewport(rect.x, rect.y, rect.width, rect.height, el.offsetWidth, el.offsetHeight, el.scrollLeft, el.scrollTop);
     }
 
     /**
@@ -50,34 +60,25 @@ export default class Viewport{
      * @param {Point} outerPoint
      * @returns {Point}
      */
-    pointOuterToInner(outerPoint){
-        let innerPt=outerPoint.clone();
+    pointOuterToInner(outerPoint) {
+        let innerPt = outerPoint.clone();
         innerPt.subtractOffset(this.outerPosition);
         //console.log(" sub",this.outerPosition,'->',innerPt)
-        innerPt.multiply(this.scale.width,this.scale.height);
+        innerPt.multiply(this.scale.width, this.scale.height);
         innerPt.addOffset(this.scroll);
         return innerPt;
     }
+
     /**
      * Converts an inner (scaled/scrolled) position point to an outer (absolute) position.
      * @param {Point} innerPoint
      * @returns {Point}
      */
-    pointInnerToOuter(innerPoint){
-        let outerPt=innerPoint.clone();
+    pointInnerToOuter(innerPoint) {
+        let outerPt = innerPoint.clone();
         outerPt.subtractOffset(this.scroll);
-        outerPt.divide(this.scale.width,this.scale.height);
+        outerPt.divide(this.scale.width, this.scale.height);
         outerPt.addOffset(this.outerPosition);
         return outerPt;
-    }
-
-    /**
-     * Constructs the viewport from a container DOM element
-     * @param {HTMLElement} htmlElement
-     */
-    static fromElement(htmlElement){
-        let rect = htmlElement.getBoundingClientRect();
-        let el = htmlElement;
-        return new Viewport(rect.x,rect.y,rect.width,rect.height,el.offsetWidth,el.offsetHeight,el.scrollLeft,el.scrollTop);
     }
 }

@@ -1,10 +1,5 @@
-import FlowEdge from "../primitives/FlowEdge.mjs";
-import Point from "../geometry/Point.mjs";
-import LineSegment from "../geometry/LineSegment.mjs";
-import FlowPort from "../primitives/FlowPort.mjs";
 import FlowInPort from "./FlowInPort.mjs";
 import FlowOutPort from "./FlowOutPort.mjs";
-import Rect from "../geometry/Rect.mjs";
 import FlowConnection from "../primitives/FlowConnection.js";
 
 /**
@@ -12,16 +7,16 @@ import FlowConnection from "../primitives/FlowConnection.js";
  *
  * With the current implementation, at least one end of the connection must be assigned to a port.  If only one is assigned, the unassigned end will track the mouse position.
  */
-export default class FlowConnectionDirectional extends FlowConnection{ //TODO: abstract so we don't need directional ports?
+export default class FlowConnectionDirectional extends FlowConnection { //TODO: abstract so we don't need directional ports?
 
     /**
      * Construct a new connection
      * @param connectionType the child type-name of the connection
      * @param id An ID value.  If none is provided, a random UUID will be assigned.
      */
-    constructor(connectionType,id=null) {
-        super('connection',id);
-        this.connectionType=connectionType;
+    constructor(connectionType, id = null) {
+        super('connection', id);
+        this.connectionType = connectionType;
     }
 
 
@@ -31,7 +26,7 @@ export default class FlowConnectionDirectional extends FlowConnection{ //TODO: a
      * @param {FlowInPort} inPort
      * @param {FlowOutPort} outPort
      */
-    connectPorts(inPort,outPort){
+    connectPorts(inPort, outPort) {
         this.connectStart(outPort);
         this.connectEnd(inPort);
     }
@@ -41,7 +36,7 @@ export default class FlowConnectionDirectional extends FlowConnection{ //TODO: a
      * Connects the line segment to port at the appropriates end (in or out). If a port is already connected at that end, that end of the connection will be replaced with the new port.
      * @param {FlowInPort} inPort
      */
-    connectEnd(inPort){
+    connectEnd(inPort) {
         super.connectEnd(inPort);
     }
 
@@ -50,7 +45,7 @@ export default class FlowConnectionDirectional extends FlowConnection{ //TODO: a
      * Connects the line segment to port at the appropriates end (in or out). If a port is already connected at that end, that end of the connection will be replaced with the new port.
      * @param {FlowOutPort} outPort
      */
-    connectStart(outPort){
+    connectStart(outPort) {
         super.connectStart(outPort);
     }
 
@@ -58,13 +53,11 @@ export default class FlowConnectionDirectional extends FlowConnection{ //TODO: a
      * Connects the line segment to a port at the appropriate end (in or out). If a port is already connected at that end, that end of the connection will be replaced with the new port.
      * @param {FlowInPort|FlowOutPort} port
      */
-    connectPort(port){
-        if(port instanceof FlowInPort) this.connectEnd(port)
-        else if(port instanceof FlowOutPort) this.connectStart(port)
-        console.log("connection",this,port);
+    connectPort(port) {
+        if (port instanceof FlowInPort) this.connectEnd(port)
+        else if (port instanceof FlowOutPort) this.connectStart(port)
+        console.log("connection", this, port);
     }
-
-
 
 
 }

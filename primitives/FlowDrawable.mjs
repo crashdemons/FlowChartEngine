@@ -3,7 +3,7 @@ import FlowObject from "./FlowObject.mjs";
 /**
  * A flowchart object that can be drawn (either as an HTML element or using an HTML Canvas)
  */
-export default class FlowDrawable extends FlowObject{
+export default class FlowDrawable extends FlowObject {
     /** The child type-name of the drawable object */
     drawType;
     /** a previously rendered jQuery element representing the object, if any.
@@ -17,9 +17,9 @@ export default class FlowDrawable extends FlowObject{
      * @param drawType the child type of the drawable (to be stored as 'drawType')
      * @param id an ID value to assign to the object.
      */
-    constructor(drawType,id) {
-        super('drawable',id)
-        this.drawType=drawType;
+    constructor(drawType, id) {
+        super('drawable', id)
+        this.drawType = drawType;
     }
 
     /**
@@ -33,8 +33,8 @@ export default class FlowDrawable extends FlowObject{
      * @returns {JQuery} the rendered jQuery element representing the object.
      * @final
      */
-    render($,options={}){
-        return this.$element = this.renderElement($,options);
+    render($, options = {}) {
+        return this.$element = this.renderElement($, options);
     }
 
     /**
@@ -50,12 +50,12 @@ export default class FlowDrawable extends FlowObject{
      * @return {JQuery} the rendered jQuery element representing the object.
      * @protected
      * @abstract */
-    renderElement($,options={}){
+    renderElement($, options = {}) {
         let $div = $(`<${this.elementTag}>`)
         $div.addClass('flow-drawable')
-        $div.attr('id','fo-'+this.id);
-        $div.attr('data-flow-id',this.id)
-        $div.attr('data-flow-base-type',this.baseType)
+        $div.attr('id', 'fo-' + this.id);
+        $div.attr('data-flow-id', this.id)
+        $div.attr('data-flow-base-type', this.baseType)
         return $div;
     }
 
@@ -63,14 +63,15 @@ export default class FlowDrawable extends FlowObject{
      *
      * For other objects, this does nothing.
      * @param {FlowGrid} grid*/
-    updatePosition(grid){}
+    updatePosition(grid) {
+    }
 
 
     /** Draw the object to the {@link FlowCanvas}, if appropriate for this object. For objects that aren't canvas-drawn, this does nothing.
      * @param {FlowCanvas} canvas
      */
-    drawCanvas(canvas){}
-
+    drawCanvas(canvas) {
+    }
 
 
     /**
@@ -81,9 +82,9 @@ export default class FlowDrawable extends FlowObject{
      * @param {FlowEvent} evt
      * @param {HTMLElement|EventTarget|null} target
      * */
-    dispatchEvent(evt,target=null){
+    dispatchEvent(evt, target = null) {
         let elem = this.$element ? this.$element[0] : null;
-        super.dispatchEvent(evt,elem);
+        super.dispatchEvent(evt, elem);
     }
 
 }

@@ -2,7 +2,6 @@ import FlowDrawable from "../primitives/FlowDrawable.mjs";
 import FlowInPort from "./FlowInPort.mjs";
 import FlowOutPort from "./FlowOutPort.mjs";
 import FlowBox from "../primitives/FlowBox.mjs";
-import FlowObject from "../primitives/FlowObject.mjs";
 
 /**
  * A flowchart object representing a connectible Node in the chart.  This object is positioned with the {@link point} property.
@@ -16,7 +15,7 @@ import FlowObject from "../primitives/FlowObject.mjs";
  * NOTE: it is not necessary to render attached ports or boxes contained by this node, only the containing Node itself.
  *
  */
-export default class FlowNode extends FlowDrawable{
+export default class FlowNode extends FlowDrawable {
     /**
      * The inner "box"/card visual element of the flowchart node.
      * @type {FlowBox}
@@ -31,29 +30,33 @@ export default class FlowNode extends FlowDrawable{
     inPorts = [];
     /** A list of output ports attached to the Node
      * @type {FlowOutPort[]} */
-    outPorts =[];
+    outPorts = [];
 
     //orientation='V';
+
+    constructor(nodeType, id = null) {
+        super('node', id);
+        this.box = new FlowBox('node-box', id ? 'nb-' + id : null);
+        this.nodeType = nodeType;
+    }
 
     /**
      * A list of ports attached to the node
      * @return {FlowPort[]} */
-    get ports(){ return [...this.inPorts,...this.outPorts]}
-    constructor(nodeType,id=null) {
-        super('node',id);
-        this.box = new FlowBox('node-box',id?'nb-'+id:null);
-        this.nodeType=nodeType;
+    get ports() {
+        return [...this.inPorts, ...this.outPorts]
     }
 
     /** Attaches an input port to the node.
      * @param {FlowInPort} port*/
-    attachInPort(port){
+    attachInPort(port) {
         this.inPorts.push(port);
         port.setParent(this);
     }
+
     /** Attaches an output port to the node
      * @param {FlowOutPort} port*/
-    attachOutPort(port){
+    attachOutPort(port) {
         this.outPorts.push(port);
         port.setParent(this);
     }
@@ -64,41 +67,42 @@ export default class FlowNode extends FlowDrawable{
      * @param id the ID of the new port (or null to assign a random UUID)
      * @returns {FlowInPort} the created input port
      */
-    addInPort(type,id=null){
-        let port = new FlowInPort(type,id);
+    addInPort(type, id = null) {
+        let port = new FlowInPort(type, id);
         this.attachInPort(port);
         return port;
     }
+
     /**
      * Creates and attaches a new output port to the node
      * @param type the child type-name to assign to the port
      * @param id the ID of the new port (or null to assign a random UUID)
      * @returns {FlowOutPort} the created output port
      */
-    addOutPort(type,id=null){
-        let port = new FlowOutPort(type,id);
+    addOutPort(type, id = null) {
+        let port = new FlowOutPort(type, id);
         this.attachOutPort(port);
         return port;
     }
 
 
-    renderElement($,options={}) {
+    renderElement($, options = {}) {
         let left = +this.point?.x;
         let top = +this.point?.y;
 
-        let $grid =super.renderElement($); //create a CSS Grid container element using a 3x3 layout
+        let $grid = super.renderElement($); //create a CSS Grid container element using a 3x3 layout
         $grid.removeClass('flow-box').addClass('flow-node');//don't inherit the Box class.
-        $grid.attr('style',`left:${left}px;top:${top}px`);
-        $grid.attr('data-flow-node-type',this.nodeType);
+        $grid.attr('style', `left:${left}px;top:${top}px`);
+        $grid.attr('data-flow-node-type', this.nodeType);
 
         //create all of the side-panels ("faces") for the css grid
         //$grid = $(`<div class="flow-node" style="left:${left}px;top:${top}px">`);
-        let $top= $('<div class="flow-node-ports flow-node-ports-h flow-node-ports-top">')
-        this.inPorts.map(port=>port.render($)).forEach($el=>$top.append($el));//render each input port and add them to the Top face/panel.
-        let $left= $('<div class="flow-node-ports flow-node-ports-v flow-node-ports-left">')
-        let $right= $('<div class="flow-node-ports flow-node-ports-v flow-node-ports-right">')
-        let $bottom= $('<div class="flow-node-ports flow-node-ports-h flow-node-ports-bottom">')
-        this.outPorts.map(port=>port.render($)).forEach($el=>$bottom.append($el));//render each output port and add them to the Bottom face/panel.
+        let $top = $('<div class="flow-node-ports flow-node-ports-h flow-node-ports-top">')
+        this.inPorts.map(port => port.render($)).forEach($el => $top.append($el));//render each input port and add them to the Top face/panel.
+        let $left = $('<div class="flow-node-ports flow-node-ports-v flow-node-ports-left">')
+        let $right = $('<div class="flow-node-ports flow-node-ports-v flow-node-ports-right">')
+        let $bottom = $('<div class="flow-node-ports flow-node-ports-h flow-node-ports-bottom">')
+        this.outPorts.map(port => port.render($)).forEach($el => $bottom.append($el));//render each output port and add them to the Bottom face/panel.
 
         //add the faces areas to the CSS grid.
         $grid.append($top);

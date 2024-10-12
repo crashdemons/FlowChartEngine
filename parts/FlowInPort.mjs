@@ -1,11 +1,12 @@
 import FlowPort from "../primitives/FlowPort.mjs";
 
 /** A {@link FlowPort} which is marked as a directional "input port" */
-export default class FlowInPort extends FlowPort{
+export default class FlowInPort extends FlowPort {
     inType;
-    constructor(inType,id=null) {
-        super('input',id);
-        this.inType=inType;
+
+    constructor(inType, id = null) {
+        super('input', id);
+        this.inType = inType;
     }
 
     renderElement($, options = {}) {

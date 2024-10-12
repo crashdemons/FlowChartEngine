@@ -3,7 +3,7 @@
  *
  * This contains a "base type" and an ID value for the object.
  * @abstract */
-export default class FlowObject{
+export default class FlowObject {
     /** The child type-name of the flowchart object (usually "drawable") */
     baseType;
     /** An ID value uniquely identifying the flowchart object.
@@ -21,8 +21,8 @@ export default class FlowObject{
      * @param {string} baseType the child type-name of the object you're creating
      * @param {string|null} id An ID value uniquely identifying the flowchart object.  If this is not provided, a random UUID will be assigned.
      */
-    constructor(baseType,id=null) {
-        this.baseType=baseType;
+    constructor(baseType, id = null) {
+        this.baseType = baseType;
         this.id = id ?? crypto.randomUUID();
     }
 
@@ -34,7 +34,7 @@ export default class FlowObject{
      * @param {FlowEvent} evt
      * @param {HTMLElement|EventTarget|null} target
      * */
-    dispatchEvent(evt,target=null){
+    dispatchEvent(evt, target = null) {
         target = target ?? document;
         target.dispatchEvent(evt);
     }

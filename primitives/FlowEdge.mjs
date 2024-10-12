@@ -3,7 +3,7 @@ import FlowDrawable from "./FlowDrawable.mjs";
 /**
  * A flowchart object representing an "edge" or specific line segment which can be drawn to a {@link FlowCanvas}.
  * @abstract */
-export default class FlowEdge extends FlowDrawable{
+export default class FlowEdge extends FlowDrawable {
     /**
      * A line segment holding the two endpoints of the Edge.
      * @type {TwoPoint} */
@@ -14,16 +14,16 @@ export default class FlowEdge extends FlowDrawable{
      * @param edgeType the child type-name of the edge.
      * @param id an ID value.  If none is provided, a random UUID will be assigned.
      */
-    constructor(edgeType,id=null) {
-        super('edge',id);
+    constructor(edgeType, id = null) {
+        super('edge', id);
     }
 
-    render($,options={thickness:1,color:'red'}){
-        return super.render($,options);
+    render($, options = {thickness: 1, color: 'red'}) {
+        return super.render($, options);
     }
 
     //dummy function - Edges are rendered to the canvas without a DOM representation at this time.
-    renderElement($,options={thickness:1,color:'red'}){/*
+    renderElement($, options = {thickness: 1, color: 'red'}) {/*
         // bottom right
         var x1 = this.lineSegment.x1;
         var y1 = this.lineSegment.y1;
@@ -55,13 +55,13 @@ export default class FlowEdge extends FlowDrawable{
      * @param {FlowCanvas} canvas
      * @protected
      * */
-    renderSpline(canvas){
+    renderSpline(canvas) {
         var x1 = this.lineSegment.x1;
         var y1 = this.lineSegment.y1;
         // top right
         var x2 = this.lineSegment.x2;
         var y2 = this.lineSegment.y2;
-        canvas.drawSpline(x1,y1,x2,y2)
+        canvas.drawSpline(x1, y1, x2, y2)
     }
 
 }

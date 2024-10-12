@@ -1,23 +1,20 @@
 import FlowEdge from "../primitives/FlowEdge.mjs";
-import Point from "../geometry/Point.mjs";
 import LineSegment from "../geometry/LineSegment.mjs";
 import FlowPort from "../primitives/FlowPort.mjs";
-import FlowInPort from "./FlowPort.mjs";
-import Rect from "../geometry/Rect.mjs";
 
 /**
  * A flow object representing a non-directional "edge"/line-segment between two ports.  This is canvas-drawn only, but is positioned relative to existing port DOM elements.
  *
  * With the current implementation, at least one end of the connection must be assigned to a port.  If only one is assigned, the unassigned end will track the mouse position.
  */
-export default class FlowConnection extends FlowEdge{ //TODO: abstract so we don't need directional ports?
+export default class FlowConnection extends FlowEdge { //TODO: abstract so we don't need directional ports?
     /** The child type-name of the connection*/
     connectionType;
 
     /** The ports that the connection is attached to, with the first being the start and the second being the end
      * @type {[FlowPort|null,FlowPort|null]}
      * */
-    ports=[null,null];
+    ports = [null, null];
 
 
     /**
@@ -25,53 +22,55 @@ export default class FlowConnection extends FlowEdge{ //TODO: abstract so we don
      * @param connectionType the child type-name of the connection
      * @param id An ID value.  If none is provided, a random UUID will be assigned.
      */
-    constructor(connectionType,id=null) {
-        super('connection',id);
-        this.connectionType=connectionType;
+    constructor(connectionType, id = null) {
+        super('connection', id);
+        this.connectionType = connectionType;
     }
 
     /** @protected */
-    _connectPort(iPort,port){
-        this.ports[iPort]=port;
+    _connectPort(iPort, port) {
+        this.ports[iPort] = port;
         // noinspection JSDeprecatedSymbols
         port.connectEdge(this);
     }
+
     /** @protected */
-    _disconnectPort(iPort,port){
+    _disconnectPort(iPort, port) {
         // noinspection JSDeprecatedSymbols
         this.ports[iPort]?.disconnectEdge();
-        this.ports[iPort]=null;
+        this.ports[iPort] = null;
     }
 
     /**
      * Connect the starting port of the connection. If one is attached, it will be replaced
      * @param {FlowPort} port
      */
-    connectStart(port){
-        this._connectPort(0,port);
+    connectStart(port) {
+        this._connectPort(0, port);
     }
+
     /**
      * Connect the ending port of the connection. If one is attached, it will be replaced
      * @param {FlowPort} port
      */
-    connectEnd(port){
-        this._connectPort(1,port);
+    connectEnd(port) {
+        this._connectPort(1, port);
     }
-    disconnectStart(){
+
+    disconnectStart() {
         this._disconnectPort(0);
     }
-    disconnectEnd(){
+
+    disconnectEnd() {
         this._disconnectPort(1);
     }
 
     /** Using an ID value, disconnect the line segment from the corresponding Port, leaving one end unassigned */
-    disconnectPort(id){
+    disconnectPort(id) {
         let idx = this._findPort(id);
-        if(idx===-1) return;
+        if (idx === -1) return;
         this._disconnectPort(idx);
     }
-
-
 
 
     /**
@@ -79,14 +78,14 @@ export default class FlowConnection extends FlowEdge{ //TODO: abstract so we don
      * @param id The ID value of the port.
      * @returns {FlowPort|null}
      */
-    findPort(id){
-        for(let port in this.ports) if(port?.id===id) return port;
+    findPort(id) {
+        for (let port in this.ports) if (port?.id === id) return port;
         return null;
     }
 
     /** @protected */
-    _findPort(id){
-        for(let i=0;i<this.ports.length;i++) if(this.ports[i]?.id===id) return i;
+    _findPort(id) {
+        for (let i = 0; i < this.ports.length; i++) if (this.ports[i]?.id === id) return i;
         return -1;
     }
 
@@ -95,26 +94,25 @@ export default class FlowConnection extends FlowEdge{ //TODO: abstract so we don
      * @param {FlowPort} inPort
      * @param {FlowPort} outPort
      */
-    connectPorts(inPort,outPort){
+    connectPorts(inPort, outPort) {
         this.connectStart(inPort);
         this.connectEnd(outPort);
     }
 
-    disconnectPorts(){
+    disconnectPorts() {
         this.disconnectStart();
         this.disconnectEnd();
     }
 
 
-    updatePosition(flowGrid){
-        if(this.ports[0]===null && this.ports[1]===null) throw "Cannot update: need at least one port attached to the connection";
+    updatePosition(flowGrid) {
+        if (this.ports[0] === null && this.ports[1] === null) throw "Cannot update: need at least one port attached to the connection";
         let $start = this.ports[0]?.$element;
         let $end = this.ports[1]?.$element;
-        if(!$start && !$end) throw "Cannot update: need inPort or outPort to be rendered onpage";
+        if (!$start && !$end) throw "Cannot update: need inPort or outPort to be rendered onpage";
 
 
-
-        this.lineSegment = LineSegment.fromCoordinates(0,0,0,0);//dummy
+        this.lineSegment = LineSegment.fromCoordinates(0, 0, 0, 0);//dummy
         this.lineSegment.p1 = flowGrid.getChildInnerPos($start)?.addOffset(FlowPort.CenterOffset) ?? flowGrid.mousePt;
         this.lineSegment.p2 = flowGrid.getChildInnerPos($end)?.addOffset(FlowPort.CenterOffset) ?? flowGrid.mousePt;
 
@@ -123,7 +121,7 @@ export default class FlowConnection extends FlowEdge{ //TODO: abstract so we don
 
 
     //dummy method - connections do not have a DOM representation; they are canvas-rendered.
-    renderElement($, options={thickness:1,color:'red'}) {
+    renderElement($, options = {thickness: 1, color: 'red'}) {
         return $([]);
         let $edge = super.renderElement($, options);
         $edge.addClass("flow-connection");
