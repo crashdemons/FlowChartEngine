@@ -26,4 +26,17 @@ export default class FlowObject{
         this.id = id ?? crypto.randomUUID();
     }
 
+    /**
+     * Dispatch a flow event.
+     *
+     * The base method dispatches the event under 'document'.
+     *
+     * @param {FlowEvent} evt
+     * @param {HTMLElement|EventTarget|null} target
+     * */
+    dispatchEvent(evt,target=null){
+        target = target ?? document;
+        target.dispatchEvent(evt);
+    }
+
 }

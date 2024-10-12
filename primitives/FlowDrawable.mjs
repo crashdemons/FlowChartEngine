@@ -71,4 +71,19 @@ export default class FlowDrawable extends FlowObject{
      */
     drawCanvas(canvas){}
 
+
+
+    /**
+     * Dispatch a flow event.
+     *
+     * The drawable method dispatches the event under the previously rendered element if it exists, otherwise it is dispatched under 'document'
+     *
+     * @param {FlowEvent} evt
+     * @param {HTMLElement|EventTarget|null} target
+     * */
+    dispatchEvent(evt,target=null){
+        let elem = this.$element ? this.$element[0] : null;
+        super.dispatchEvent(evt,elem);
+    }
+
 }

@@ -8,6 +8,8 @@ import FlowEdge from "../../primitives/FlowEdge.mjs";
 import FlowGrid from "../../FlowGrid.mjs";
 import Viewport from "../../geometry/Viewport.mjs";
 import TestScene from "./TestScene.mjs";
+import FlowPortEvent from "../../events/FlowPortEvent.mjs";
+import FlowPort from "../../primitives/FlowPort.mjs";
 
 export default class TestEntryPoint{
     run(window){
@@ -30,6 +32,12 @@ export default class TestEntryPoint{
         scene.prepare();
 
         window.scene = scene;
+
+        FlowPort.on('click',(evt)=>{
+            console.log("port click event",evt.port);
+        })
+
+
         function frame(){
             //console.debug("frame");
             scene.update();
