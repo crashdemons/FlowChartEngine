@@ -121,7 +121,7 @@ export default class FlowCanvas extends FlowDrawable{
      * @param x2 X position of the second endpoint
      * @param y2 Y position of the second endpoint
      */
-    static drawSpline(canvas,ctx,x1,y1,x2,y2){//TODO: can this be part of FlowCanvas?
+    static drawSpline(canvas,ctx,x1,y1,x2,y2){
         console.log("drawSpline:",x1,y1,x2,y2);
         //let $canvas = $('canvas');
         //let canvas = $canvas[0];
