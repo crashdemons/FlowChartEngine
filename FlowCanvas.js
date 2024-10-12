@@ -56,8 +56,8 @@ export default class FlowCanvas extends FlowDrawable{
      */
     static createInContainer(jQuery,$container){
         let $ = jQuery;
-        let $canvasFix = $('<div class="flow-canvas-position-fix">');
-        let $canvas = $('<canvas class="flow-canvas">');
+        let $canvasFix = $('<div class="flow-canvas-position-fix flow-grid-noclear">');
+        let $canvas = $('<canvas class="flow-canvas flow-grid-noclear">');
         $canvasFix.append($canvas);
         $container.append($canvasFix);
         return new FlowCanvas(jQuery,$canvas);

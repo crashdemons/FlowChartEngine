@@ -59,8 +59,8 @@ export default class FlowGrid extends FlowDrawable{
     /**
      * Clears all elements from the flowchart.
      */
-    clearDrawables(){//TODO: should we exempt the elements from FlowCanvas from being cleared?
-        this.$container.empty();
+    clearDrawables(){
+        this.$container.children().not(".flow-grid-noclear").remove();
     }
 
 
