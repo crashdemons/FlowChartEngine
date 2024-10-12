@@ -3,7 +3,7 @@ import FlowObject from "./FlowObject.mjs";
 
 export default class FlowDrawable extends FlowObject{
     drawType;
-    /** @type {jQuery|null} */
+    /** @type {JQuery|null} */
     $element = null;
     elementTag = 'div'
     constructor(drawType,id) {
@@ -33,5 +33,12 @@ export default class FlowDrawable extends FlowObject{
         $div.attr('data-flow-base-type',this.baseType)
         return $div;
     }
+
+    /** @param {FlowGrid} grid*/
+    updatePosition(grid){}
+
+
+    /** @param {FlowCanvas} canvas*/
+    drawCanvas(canvas){}
 
 }

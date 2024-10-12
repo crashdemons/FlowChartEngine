@@ -37,6 +37,15 @@ export default class FlowGrid extends FlowDrawable{
         })
     }
 
+    /**
+     * @param {JQuery|HTMLElement} elem
+     */
+    appendDrawableElement(elem){
+        this.$container.append(elem);
+    }
+    clearDrawables(){
+        this.$container.empty();
+    }
 
 
     /**

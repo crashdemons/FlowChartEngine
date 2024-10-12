@@ -7,7 +7,7 @@ import FlowOutPort from "./parts/FlowOutPort.js";
 import FlowEdge from "./primitives/FlowEdge.mjs";
 import FlowGrid from "./FlowGrid.mjs";
 import Viewport from "./geometry/Viewport.js";
-import TestScene from "./TestScene.js";
+import TestScene from "./TestScene.mjs";
 
 export default class TestEntryPoint{
     run(window){
@@ -27,13 +27,13 @@ export default class TestEntryPoint{
 
 
         let scene = new TestScene(window,jQuery,$('.flow2'));
-        scene.prepareTestScene();
+        scene.prepare();
 
         window.scene = scene;
         function frame(){
             console.log("frame");
-            scene.updateTestScene();
-            scene.drawTestScene();
+            scene.update();
+            scene.draw();
             window.requestAnimationFrame(frame);
         }
         window.frame=frame;
