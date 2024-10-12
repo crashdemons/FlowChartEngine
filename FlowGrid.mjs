@@ -112,7 +112,7 @@ export default class FlowGrid extends FlowDrawable{
     getChildInnerPos(el){
         if(!el) return null;
         let outerPt = this.getChildOuterPos(el);  //we can't really trust style position or other methods to be correct without work, so get the BoundingClientRect as an outer position
-        console.log("GEIP",el,outerPt);
+        console.debug("GEIP",el,outerPt);
         return this.viewport.pointOuterToInner(outerPt); //convert the outer position to inner using scaling/scrolling.
     }
 }

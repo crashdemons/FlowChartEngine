@@ -69,7 +69,7 @@ export default class FlowConnection extends FlowEdge{
         this.lineSegment.p1 = flowGrid.getChildInnerPos($in)?.addOffset(FlowPort.CenterOffset) ?? flowGrid.mousePt;
         this.lineSegment.p2 = flowGrid.getChildInnerPos($out)?.addOffset(FlowPort.CenterOffset) ?? flowGrid.mousePt;
 
-        console.log("Updated line segment",this.lineSegment,$in,'pts',this.lineSegment.p1,this.lineSegment.p2,'m',flowGrid.mousePt)
+        console.debug("Updated line segment",this.lineSegment,$in,'pts',this.lineSegment.p1,this.lineSegment.p2,'m',flowGrid.mousePt)
     }
 
 
