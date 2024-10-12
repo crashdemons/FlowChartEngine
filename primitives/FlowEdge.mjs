@@ -1,9 +1,19 @@
 import FlowDrawable from "./FlowDrawable.mjs";
 
-/** @abstract */
+/**
+ * A flowchart object representing an "edge" or specific line segment which can be drawn to a {@link FlowCanvas}.
+ * @abstract */
 export default class FlowEdge extends FlowDrawable{
-    /** @type {TwoPoint} */
+    /**
+     * A line segment holding the two endpoints of the Edge.
+     * @type {TwoPoint} */
     lineSegment;
+
+    /**
+     * Construct a new flowchart edge.
+     * @param edgeType the child type-name of the edge.
+     * @param id an ID value.  If none is provided, a random UUID will be assigned.
+     */
     constructor(edgeType,id=null) {
         super('edge',id);
     }
@@ -12,7 +22,7 @@ export default class FlowEdge extends FlowDrawable{
         return super.render($,options);
     }
 
-    // noinspection JSCheckFunctionSignatures
+    //dummy function - Edges are rendered to the canvas without a DOM representation at this time.
     renderElement($,options={thickness:1,color:'red'}){/*
         // bottom right
         var x1 = this.lineSegment.x1;
@@ -35,18 +45,25 @@ export default class FlowEdge extends FlowDrawable{
         return $([]);
     }
 
+    /** Draw the Edge onto a {@link FlowCanvas} */
     drawCanvas(canvas) {
         this.renderSpline2(canvas.element,canvas.ctx);
     }
 
-    /** @param {FlowCanvas} canvas*/
+    /**
+     * Draws a spline representation of the Edge onto a {@link FlowCanvas}
+     * @param {FlowCanvas} canvas
+     * @protected
+     * */
     renderSpline(canvas){
         this.renderSpline2(canvas.element,canvas.ctx);
     }
 
     /**
+     * Draws a spline representation of the Edge onto an HTML canvas using a provided rendering context.
      * @param {HTMLCanvasElement} canvas
      * @param {CanvasRenderingContext2D} ctx
+     * @protected
      * */
     renderSpline2(canvas,ctx){
         // bottom right
@@ -60,13 +77,14 @@ export default class FlowEdge extends FlowDrawable{
     }
 
     /**
-     *
+     * Draws a spline onto an HTML canvas using a provided rendering context, with the provided endpoints.
      * @param {HTMLCanvasElement} canvas
      * @param {CanvasRenderingContext2D} ctx
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param x1 X position of the first endpoint
+     * @param y1 Y position of the first endpoint
+     * @param x2 X position of the second endpoint
+     * @param y2 Y position of the second endpoint
+     * @protected
      */
     static drawSpline(canvas,ctx,x1,y1,x2,y2){
         console.log("drawSpline:",x1,y1,x2,y2);
