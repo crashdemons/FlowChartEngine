@@ -1,3 +1,5 @@
+import FlowConnection from "./primitives/FlowConnection.js";
+
 /**
  * An object providing methods for setting up a flowchart "scene" to be displayed on a {@link FlowGrid} in a less manual fashion.
  *
@@ -44,10 +46,48 @@ export default class FlowScene {
 
 
     /** Adds a flowchart drawable object to the scene
-     * @param {FlowDrawable} obj */
-    addDrawable(obj) {
+     * @param {FlowDrawable} obj
+     * @param {boolean} prepare whether to render and append the new object to the FlowGrid container. (this is used if you're adding an object on the fly)
+     * */
+    addDrawable(obj,prepare=false) {
         this.drawables.push(obj);
+        if(prepare){
+            let elem = obj.render($);
+            this.grid.appendDrawableElement(elem);
+        }
     }
+
+
+
+    /** Removes a flowchart drawable object from the scene
+     * @param {FlowDrawable} obj
+     * */
+    removeDrawable(obj){
+        obj.$element?.remove();
+        let iFound = -1;
+        for(let i=0;i<this.drawables.length;i++){
+            if(this.drawables[i]?.id===obj.id){
+                iFound = i; break;
+            }
+        }
+        if(iFound!==-1) this.drawables.splice(iFound,1);
+    }
+
+    /**
+     * Gets the first FlowConnection in the scene which is tracking the mouse position. Otherwise, null is returned
+     *
+     * @return {FlowConnection|null}
+     */
+    getMouseConnection(){
+        for(let drawable of this.drawables){
+            console.log("draw",drawable instanceof FlowConnection,drawable);
+            if(drawable instanceof FlowConnection){
+                if(drawable.isTrackingMouse) return drawable;
+            }
+        }
+        return null;
+    }
+
 
 
     /** Prepares flowchart objects for drawing and renders DOM-based objects to the drawable area (since they are not redrawn)*/
