@@ -42,6 +42,7 @@ export default class Point {
     add(dx, dy) {
         this.x += dx;
         this.y += dy;
+        return this;
     }
 
     /**
@@ -54,6 +55,7 @@ export default class Point {
     subtract(dx, dy) {
         this.x += dx;
         this.y += dy;
+        return this;
     }
 
     /**
@@ -86,7 +88,8 @@ export default class Point {
         return this;
     }
 
-    /** Creates a new Point with equal X and Y values to the current */
+    /** Creates a new Point with equal X and Y values to the current
+     * @returns {Point} */
     clone() {
         return Point.fromPointlike(this);
     }
