@@ -111,6 +111,10 @@ export default class FlowConnection extends FlowEdge { //TODO: abstract so we do
         this.disconnectEnd();
     }
 
+    get isTrackingMouse(){
+        //console.log("flowconntrackports",this.ports);
+        return (this.ports[0] === null || this.ports[1] === null)
+    }
 
     updatePosition(flowGrid) {
         if (this.ports[0] === null && this.ports[1] === null) throw "Cannot update: need at least one port attached to the connection";
