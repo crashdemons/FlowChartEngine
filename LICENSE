@@ -1,0 +1,41 @@
+Copyright (C) crashdemons - All Rights Reserved
+
+The contained source code, its resulting binaries or libraries, associated documentation and derivative works (together
+henceforth referred to as the "Software") are protected under international copyright law.  All rights
+reserved and protected by the copyright holders, with the following exceptions:
+ - Third-party works from the jQuery project (found in the "vendor-js" directory) is licensed under the included license
+   from that directory.
+ - Third-party works from the Fontawesome project (found in the "vendor-resources" directory) is licensed under the
+   included license from that directory.
+
+Rights:
+Except where restricted by other licenses and GitHub terms of service: Unauthorized copying, distribution or
+modification of "The Software" (the contained source code, its resulting binaries or libraries, and derivative works), use as a library, or selling the included works is strictly prohibited.
+Individuals, companies, organizations, and government bodies may contact the copyright holder for authorization or
+licensing that may supersede these restrictions.
+
+Community Edition Exemption:
+Individuals, community groups, non-profit organizations, and educational institutions are hereby granted a
+Community Edition License (provided in the LICENSE-COMMUNITY-EDITION file) under the following conditions:
+ - The Software is not used for commercial advantage, monetary compensation, or by a for-profit company or venture -
+   with the exception of internal demonstrations to determine usability.
+ - The Software is not used for political campaigning or by political action committees.
+ - Paid, Private, or Commercial Edition licensed components of FlowChartEngine must not be used in conjunction with
+   The Software.
+ - All terms of that provided license are followed.
+
+Copyright Holder Contact information:
+Email: webmaster (at) ae27ff.com
+
+
+------------------------------------------------------------
+All above copyright notices, license texts, and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
