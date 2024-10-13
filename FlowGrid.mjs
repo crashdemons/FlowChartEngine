@@ -67,7 +67,10 @@ export default class FlowGrid extends FlowDrawable {
      * @param {JQuery|HTMLElement} elem
      */
     appendDrawableElement(elem) {
-        this.$container.append(elem);
+        if(elem===null || $(elem).length===0) return;
+        let $fix = $('<div class="flow-element-position-fix">');
+        $fix.append(elem);
+        this.$container.append($fix);
     }
 
     /**
