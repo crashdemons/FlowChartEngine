@@ -92,7 +92,9 @@
     border:0 !important;
     padding: 0 !important;
 }
-.flow-canvas-position-fix{
+
+
+.flow-canvas-position-fix,.flow-element-position-fix{
     position:relative;top:0;left:0;width:0;height:0;
 }
 .flow-canvas{
