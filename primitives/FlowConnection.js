@@ -57,6 +57,13 @@ export default class FlowConnection extends FlowEdge { //TODO: abstract so we do
         this._connectPort(1, port);
     }
 
+    get startPort(){
+        return this.ports[0];
+    }
+    get endPort(){
+        return this.ports[1];
+    }
+
     disconnectStart() {
         this._disconnectPort(0);
     }
