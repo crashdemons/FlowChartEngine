@@ -43,6 +43,14 @@ export default class FlowGrid extends FlowDrawable {
             //pt.addOffset(this.containerScroll);
             this.mousePt = ptInner;
             //console.log("mouse",pt);
+        });
+        window.addEventListener('dragover',(e)=>{//mousemove doesn't fire while dragging for me?
+            //console.log(e);
+            let ptOuter = new Point(e.clientX, e.clientY);
+            let ptInner = this.viewport.pointOuterToInner(ptOuter);
+            //pt.subtractOffset(this.containerPos)
+            //pt.addOffset(this.containerScroll);
+            this.mousePt = ptInner;
         })
     }
 
