@@ -107,7 +107,15 @@ export default class FlowConnection extends FlowEdge { //TODO: abstract so we do
     _getConnectedNode(i){
         return this.ports[i]?.parent;
     }
-
+    getNodeConnections(){
+        return {
+            start: this._getConnectedNode(FlowConnection.PORT_START),
+            end: this._getConnectedNode(FlowConnection.PORT_END),
+        };
+    }
+    getConnectedNodes(){
+        return this.ports.map(port=>port?.parent);
+    }
 
 
     /**
