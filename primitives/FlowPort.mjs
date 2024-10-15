@@ -51,7 +51,7 @@ export default class FlowPort extends FlowDrawable {
 
     /** Track the edge as connected to this port.
      *
-     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowConnection method.
+     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowEdge method.
      * @param {FlowEdge} edge */
     connectEdge(edge) {
         let idx = this._findEdge(edge.id);
@@ -62,7 +62,7 @@ export default class FlowPort extends FlowDrawable {
 
     /** Untrack all attached edges from this port.
      *
-     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowConnection method.
+     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowEdge method.
      * */
     disconnectEdges() {
         this.edges = [];
@@ -74,16 +74,16 @@ export default class FlowPort extends FlowDrawable {
         return -1;
     }
 
-    /** Retrieve a connected FlowEdge with a matching ID value */
+    /** Retrieve a connected FlowLine with a matching ID value */
     findEdge(id) {
         for (let edge of this.edges) if (edge?.id === id) return edge;
         return null;
     }
 
-    /** Untrack the connected FlowEdge with a matching ID value
+    /** Untrack the connected FlowLine with a matching ID value
      *
      *
-     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowConnection method.
+     * @deprecated this does not inform the Edge that a connection has been made. You should avoid using this method over the corresponding FlowEdge method.
      * */
     disconnectEdge(id) {
         let idx = this._findEdge(id);

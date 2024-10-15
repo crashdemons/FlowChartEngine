@@ -2,7 +2,7 @@ import EditorScene from "./EditorScene.mjs";
 import FlowPort from "../../primitives/FlowPort.mjs";
 import NodeType1 from "./NodeType1.mjs";
 import Point from "../../geometry/Point.mjs";
-import FlowConnectionDirectional from "../../parts/FlowConnectionDirectional.mjs";
+import FlowArrow from "../../parts/FlowArrow.mjs";
 import FlowInPort from "../../parts/FlowInPort.mjs";
 import FlowOutPort from "../../parts/FlowOutPort.mjs";
 
@@ -19,7 +19,7 @@ export default class EditorEntryPoint {
                     ctx.save();
 
 
-                   // FlowEdge.drawSpline(canvas,ctx,100,100,evt.clientX,evt.clientY)
+                   // FlowLine.drawSpline(canvas,ctx,100,100,evt.clientX,evt.clientY)
                 })*/
 
 
@@ -79,11 +79,11 @@ export default class EditorEntryPoint {
             }else{
                 console.log("port click event", evt.port);
                 if(evt.port.edges.length){//if the port has edges, delete them
-                    for(/** @type {FlowConnection} */let edge of evt.port.edges){
+                    for(/** @type {FlowEdge} */let edge of evt.port.edges){
                         scene.removeDrawable(edge);
                     }
                 }
-                let edge = new FlowConnectionDirectional('ed-conn');
+                let edge = new FlowArrow('ed-conn');
                 edge.connectPort(evt.port);
                 scene.addDrawable(edge,true);
             }

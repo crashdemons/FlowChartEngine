@@ -14,7 +14,7 @@ export default class TestEntryPoint {
                     ctx.save();
 
 
-                   // FlowEdge.drawSpline(canvas,ctx,100,100,evt.clientX,evt.clientY)
+                   // FlowLine.drawSpline(canvas,ctx,100,100,evt.clientX,evt.clientY)
                 })*/
 
 

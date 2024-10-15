@@ -1,4 +1,4 @@
-import FlowEdge from "../primitives/FlowEdge.mjs";
+import FlowLine from "./FlowLine.mjs";
 import LineSegment from "../geometry/LineSegment.mjs";
 import FlowPort from "../primitives/FlowPort.mjs";
 
@@ -7,7 +7,7 @@ import FlowPort from "../primitives/FlowPort.mjs";
  *
  * With the current implementation, at least one end of the connection must be assigned to a port.  If only one is assigned, the unassigned end will track the mouse position.
  */
-export default class FlowConnection extends FlowEdge { //TODO: abstract so we don't need directional ports?
+export default class FlowEdge extends FlowLine { //TODO: abstract so we don't need directional ports?
     /** @constant
      * @type {0}*/
     static PORT_START = 0;
@@ -53,7 +53,7 @@ export default class FlowConnection extends FlowEdge { //TODO: abstract so we do
      * @param {FlowPort} port
      */
     connectStart(port) {
-        this._connectPort(FlowConnection.PORT_START, port);
+        this._connectPort(FlowEdge.PORT_START, port);
     }
 
     /**
@@ -61,23 +61,23 @@ export default class FlowConnection extends FlowEdge { //TODO: abstract so we do
      * @param {FlowPort} port
      */
     connectEnd(port) {
-        this._connectPort(FlowConnection.PORT_END, port);
+        this._connectPort(FlowEdge.PORT_END, port);
     }
 
     get startPort(){
-        return this.ports[FlowConnection.PORT_START];
+        return this.ports[FlowEdge.PORT_START];
     }
     get endPort(){
-        return this.ports[FlowConnection.PORT_END];
+        return this.ports[FlowEdge.PORT_END];
     }
 
 
     disconnectStart() {
-        this._disconnectPort(FlowConnection.PORT_START);
+        this._disconnectPort(FlowEdge.PORT_START);
     }
 
     disconnectEnd() {
-        this._disconnectPort(FlowConnection.PORT_END);
+        this._disconnectPort(FlowEdge.PORT_END);
     }
 
     /** Using an ID value, disconnect the line segment from the corresponding Port, leaving one end unassigned */
@@ -109,8 +109,8 @@ export default class FlowConnection extends FlowEdge { //TODO: abstract so we do
     }
     getNodeConnections(){
         return {
-            start: this._getConnectedNode(FlowConnection.PORT_START),
-            end: this._getConnectedNode(FlowConnection.PORT_END),
+            start: this._getConnectedNode(FlowEdge.PORT_START),
+            end: this._getConnectedNode(FlowEdge.PORT_END),
         };
     }
     getConnectedNodes(){
@@ -140,8 +140,8 @@ export default class FlowConnection extends FlowEdge { //TODO: abstract so we do
 
     updatePosition(flowGrid) {
         if (this.ports[0] === null && this.ports[1] === null) throw "Cannot update: need at least one port attached to the connection";
-        let $start = this.ports[FlowConnection.PORT_START]?.$element;
-        let $end = this.ports[FlowConnection.PORT_END]?.$element;
+        let $start = this.ports[FlowEdge.PORT_START]?.$element;
+        let $end = this.ports[FlowEdge.PORT_END]?.$element;
         if (!$start && !$end) throw "Cannot update: need inPort or outPort to be rendered onpage";
 
 

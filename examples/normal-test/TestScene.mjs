@@ -1,6 +1,6 @@
 import FlowNode from "../../parts/FlowNode.mjs";
 import Point from "../../geometry/Point.mjs";
-import FlowConnectionDirectional from "../../parts/FlowConnectionDirectional.mjs";
+import FlowArrow from "../../parts/FlowArrow.mjs";
 import FlowGrid from "../../FlowGrid.mjs";
 import FlowScene from "../../FlowScene.mjs";
 
@@ -38,10 +38,10 @@ export default class TestScene extends FlowScene {
         //this.$container.append($(html3));
 
 
-        let testConnection = new FlowConnectionDirectional('test');
+        let testConnection = new FlowArrow('test');
         testConnection.connectPorts(pin, pout);
 
-        let testConnection2 = new FlowConnectionDirectional('test');
+        let testConnection2 = new FlowArrow('test');
         testConnection2.connectStart(pout);
         //testConnection2.outPort = pout;
         //testConnection2.inPort = null;

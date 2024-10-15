@@ -1,17 +1,17 @@
 import FlowInPort from "./FlowInPort.mjs";
 import FlowOutPort from "./FlowOutPort.mjs";
-import FlowConnection from "../primitives/FlowConnection.js";
+import FlowEdge from "../primitives/FlowEdge.js";
 
 /**
  * A flow object representing a directional "edge"/line-segment between an output port and an input port.  This is canvas-drawn only, but is positioned relative to existing port DOM elements.
  *
  * With the current implementation, at least one end of the connection must be assigned to a port.  If only one is assigned, the unassigned end will track the mouse position.
  */
-export default class FlowConnectionDirectional extends FlowConnection { //TODO: abstract so we don't need directional ports?
+export default class FlowArrow extends FlowEdge { //TODO: abstract so we don't need directional ports?
     /** @constant */
-    static PORT_OUT = FlowConnection.PORT_START;
+    static PORT_OUT = FlowEdge.PORT_START;
     /** @constant */
-    static PORT_END  = FlowConnection.PORT_END;
+    static PORT_IN  = FlowEdge.PORT_END;
 
     /**
      * Construct a new connection

@@ -1,6 +1,6 @@
 import FlowNode from "../../parts/FlowNode.mjs";
 import Point from "../../geometry/Point.mjs";
-import FlowConnectionDirectional from "../../parts/FlowConnectionDirectional.mjs";
+import FlowArrow from "../../parts/FlowArrow.mjs";
 import FlowGrid from "../../FlowGrid.mjs";
 import FlowScene from "../../FlowScene.mjs";
 

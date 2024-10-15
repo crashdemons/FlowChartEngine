@@ -1,9 +1,9 @@
 import FlowDrawable from "./FlowDrawable.mjs";
 
 /**
- * A flowchart object representing an "edge" or specific line segment which can be drawn to a {@link FlowCanvas}.
+ * A flowchart object representing line segment which can be drawn to a {@link FlowCanvas}.
  * @abstract */
-export default class FlowEdge extends FlowDrawable {
+export default class FlowLine extends FlowDrawable {
     /**
      * A line segment holding the two endpoints of the Edge.
      * @type {TwoPoint} */
@@ -15,7 +15,7 @@ export default class FlowEdge extends FlowDrawable {
      * @param id an ID value.  If none is provided, a random UUID will be assigned.
      */
     constructor(edgeType, id = null) {
-        super('edge', id);
+        super('segment', id);
     }
 
     render($, options = {thickness: 1, color: 'red'}) {

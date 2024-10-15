@@ -1,4 +1,4 @@
-import FlowConnection from "./primitives/FlowConnection.js";
+import FlowEdge from "./primitives/FlowEdge.js";
 
 /**
  * An object providing methods for setting up a flowchart "scene" to be displayed on a {@link FlowGrid} in a less manual fashion.
@@ -74,14 +74,14 @@ export default class FlowScene {
     }
 
     /**
-     * Gets the first FlowConnection in the scene which is tracking the mouse position. Otherwise, null is returned
+     * Gets the first FlowEdge in the scene which is tracking the mouse position. Otherwise, null is returned
      *
-     * @return {FlowConnection|null}
+     * @return {FlowEdge|null}
      */
     getMouseConnection(){
         for(let drawable of this.drawables){
-            console.log("draw",drawable instanceof FlowConnection,drawable);
-            if(drawable instanceof FlowConnection){
+            console.log("draw",drawable instanceof FlowEdge,drawable);
+            if(drawable instanceof FlowEdge){
                 if(drawable.isTrackingMouse) return drawable;
             }
         }
