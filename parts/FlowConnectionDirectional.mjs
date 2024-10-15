@@ -8,6 +8,10 @@ import FlowConnection from "../primitives/FlowConnection.js";
  * With the current implementation, at least one end of the connection must be assigned to a port.  If only one is assigned, the unassigned end will track the mouse position.
  */
 export default class FlowConnectionDirectional extends FlowConnection { //TODO: abstract so we don't need directional ports?
+    /** @constant */
+    static PORT_OUT = FlowConnection.PORT_START;
+    /** @constant */
+    static PORT_END  = FlowConnection.PORT_END;
 
     /**
      * Construct a new connection
