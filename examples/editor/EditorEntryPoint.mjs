@@ -73,23 +73,69 @@ export default class EditorEntryPoint {
 
             let conn = scene.getMouseConnection();
             console.log("conntrack",conn);
-            if(conn!==null){
-                if(conn.endPort===null && evt.port instanceof FlowInPort) conn.connectEnd(evt.port);
-                else if(conn.startPort===null &&  evt.port instanceof FlowOutPort) conn.connectStart(evt.port);
+            if(conn!==null){ //existing connection is tracking the mouse - try to complete it.
+                this.handleExistingConnectionClick(evt,scene,conn);
+
             }else{
-                console.log("port click event", evt.port);
-                if(evt.port.edges.length){//if the port has edges, delete them
-                    for(/** @type {FlowEdge} */let edge of evt.port.edges){
-                        scene.removeDrawable(edge);
-                    }
-                }
-                let edge = new FlowArrow('ed-conn');
-                edge.connectPort(evt.port);
-                scene.addDrawable(edge,true);
+                this.handleNewConnectionClick(evt,scene);
             }
 
 
         })
+    }
+
+    /**
+     *
+     * @param {FlowPortEvent} evt
+     * @param {FlowScene} scene
+     * @param {FlowEdge} conn
+     */
+    handleExistingConnectionClick(evt,scene,conn){
+        //gather some information about the port we clicked and the node it's attached to.
+        let clickPortId = evt.port.id;
+        let clickNodeId = evt.port.parentNode?.id;
+
+        let portIds = conn.ports.filter(p=>p!==null).map(p=>p.id);
+        if(portIds.includes(clickPortId)){
+            alert("This example detects when you click the same port a line began at, and removes it.\r\nPOOF!");
+            scene.removeDrawable(conn);
+            return;
+        }
+
+        let connNodes = conn.getConnectedNodes();
+        let connNodeIds = connNodes.map(n=>n.id);
+        if(connNodeIds.includes(clickNodeId)){
+            alert("This example prevents you from attaching the node to itself.")
+            return;
+        }
+
+        if(conn.endPort===null && evt.port instanceof FlowInPort){ this.removePortConnections(evt.port); conn.connectEnd(evt.port); }
+        else if(conn.startPort===null &&  evt.port instanceof FlowOutPort){ this.removePortConnections(evt.port); conn.connectStart(evt.port); }
+    }
+
+
+
+    /** @type {FlowPort} */
+    removePortConnections(port){
+        console.log(" port has existing edges",port.edges.length);
+        for(/** @type {FlowEdge} */let edge of port.edges){
+            console.log("  removing",edge);
+            scene.removeDrawable(edge);
+        }
+    }
+
+    handleNewConnectionClick(evt,scene){
+        console.log("port click event", evt.port);
+        if(evt.port.edges.length){//if the port has edges, delete them
+            alert("This example detects when you clicked a port with existing edges and replaces them with a new one");
+            this.removePortConnections(evt.port);
+        }else{
+
+            console.log(" port has no existing edges",evt.port.edges.length);
+        }
+        let edge = new FlowArrow('ed-conn');
+        edge.connectPort(evt.port);
+        scene.addDrawable(edge,true);
     }
 
 
