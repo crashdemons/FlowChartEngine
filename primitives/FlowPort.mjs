@@ -1,6 +1,7 @@
 import FlowDrawable from "./FlowDrawable.mjs";
 import Point from "../geometry/Point.mjs";
 import FlowPortEvent from "../events/FlowPortEvent.mjs";
+import FlowEvent from "../events/FlowEvent.mjs";
 
 /**
  * A flowchart object representing a connection-point for an Edge/line-segment. The Port is generally attached directly to a Node/Box.
@@ -100,8 +101,13 @@ export default class FlowPort extends FlowDrawable {
     }
 
     renderElement($, options = {}) {
+        let $elem = super.renderElement($);
+        $elem.addClass('flow-port');
+        $elem.attr('draggable',"true");
+/*
         let instanceId = ("" + Math.random()).substring(2);
-        let $elem = $(`<div class="flow-port" id="fo-${instanceId}">`);
+
+        let $elem = $(`<div class="flow-port" id="fo-${instanceId}" draggable="true">`);*/
         this.bindEvents($elem);
         return $elem;
     }
@@ -123,6 +129,25 @@ export default class FlowPort extends FlowDrawable {
             //console.log("Dispatchevent click",$elem[0],evt);
             //$elem[0].dispatchEvent(evt);
         })
+        $elem.on('dragstart', (jEvt) => {
+            jEvt.originalEvent.dropEffect = "link";
+            jEvt.originalEvent.dataTransfer.setData(FlowEvent.TRANSFER_ID_FORMAT,FlowPortEvent.createTransferID(this));
+            FlowEvent.setInvisibleDragImage(jEvt);
+            this.fire('dragstart');
+        })
+    }
+
+
+    /**
+     * Captures an event of a port to be dragged and dropped on a location of a container.
+     *
+     * Note: this enables the item to be dropped there.
+     *
+     * @param {JQuery} $container
+     * @param {function(FlowPortEvent,id:string)} listener
+     */
+    static onDragTo($container,listener){
+        FlowPortEvent.onDragTo($container,listener);
     }
 
     /**

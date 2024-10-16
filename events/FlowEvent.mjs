@@ -1,6 +1,7 @@
 /** An event relating to the flowchart or an element*/
 export default class FlowEvent extends CustomEvent {
     static PREFIX = "flowce";
+    static TRANSFER_ID_FORMAT="application/flowce-id";
     flowEventType;
 
     constructor(type, options = {}, bubbles = true, cancelable) {
@@ -26,4 +27,12 @@ export default class FlowEvent extends CustomEvent {
         document.addEventListener(name, listener);
     }
 
+
+    static __invisImage = document.createElement("img");
+    static setInvisibleDragImage(jQueryEvent){
+        jQueryEvent.originalEvent.dataTransfer.setDragImage(FlowEvent.__invisImage,0,0);
+    }
+
 }
+
+FlowEvent.__invisImage.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";

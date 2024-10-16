@@ -53,14 +53,15 @@ export default class EditorEntryPoint {
         let dragOptions = $(".sidebar > .option");
         dragOptions.on('dragstart',(evt)=>{
             console.log("DRAG",evt);
-            evt.originalEvent.dataTransfer.setData('text/plain','xyz');
+            evt.originalEvent.dataTransfer.setData('application/editor-option','menu-option');
         })
         flowContainer.on('dragover',(evt)=>{
             evt.preventDefault();///allow drop
         })
         flowContainer.on('drop',(evt)=>{
-            let str =  evt.originalEvent.dataTransfer.getData('text/plain');
+            let str =  evt.originalEvent.dataTransfer.getData('application/editor-option');
             console.log("DROP",evt,str)
+            if(str!=='menu-option') return;
 
             let node = new NodeType1();
             let mousePt = scene.grid.mousePt.clone().subtract(-25,-25);
@@ -69,19 +70,58 @@ export default class EditorEntryPoint {
             node.point = mousePt;
             scene.addDrawable(node,true);
         })
-        FlowPort.on('click', (evt) => {
 
+        FlowPort.on('click dragevent', (evt) => {
             let conn = scene.getMouseConnection();
             console.log("conntrack",conn);
             if(conn!==null){ //existing connection is tracking the mouse - try to complete it.
-                this.handleExistingConnectionClick(evt,scene,conn);
+                this.handleSelectPortWithConnection(evt,scene,conn);
 
             }else{
-                this.handleNewConnectionClick(evt,scene);
+                this.handleSelectPortWithoutConnection(evt,scene);
             }
-
-
         })
+
+        FlowPort.onDragTo(flowContainer,(evt,id)=>{
+            let $target = $(evt.target);
+            console.log("FlowPort Drop",id,evt,$target);
+            /*if($target.hasClass('flow-port')){
+                $target = $target.parents('.flow-node').first();
+                let id = $target.attr('flow-id')??null;
+
+                let node = scene.findDrawable(id);
+
+
+            }*/
+
+
+
+            if($target.hasClass('flow-port')){
+                let id = $target.attr('data-flow-id')??null;
+                let port = scene.findDrawable(id);
+                console.log(" drop on port",id,port,scene.drawables.map(d=>d?.id));
+                if(port!==null){
+                    evt.port = port;
+                    console.log("  handleSelectPort",port);
+                    this.handleSelectPort(evt,scene,null);
+                }
+            }else{
+                console.log(" drop on nothing");
+                let conn = scene.getMouseConnection();
+                if(conn!==null){
+                    scene.removeDrawable(conn);
+                }
+            }
+        })
+    }
+
+    handleSelectPort(evt,scene,conn){
+        if(conn!==null){ //existing connection is tracking the mouse - try to complete it.
+            this.handleSelectPortWithConnection(evt,scene,conn);
+
+        }else{
+            this.handleSelectPortWithoutConnection(evt,scene);
+        }
     }
 
     /**
@@ -90,7 +130,7 @@ export default class EditorEntryPoint {
      * @param {FlowScene} scene
      * @param {FlowEdge} conn
      */
-    handleExistingConnectionClick(evt,scene,conn){
+    handleSelectPortWithConnection(evt, scene, conn){
         //gather some information about the port we clicked and the node it's attached to.
         let clickPortId = evt.port.id;
         let clickNodeId = evt.port.parentNode?.id;
@@ -124,7 +164,7 @@ export default class EditorEntryPoint {
         }
     }
 
-    handleNewConnectionClick(evt,scene){
+    handleSelectPortWithoutConnection(evt, scene){
         console.log("port click event", evt.port);
         if(evt.port.edges.length){//if the port has edges, delete them
             alert("This example detects when you clicked a port with existing edges and replaces them with a new one");

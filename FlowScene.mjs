@@ -57,6 +57,12 @@ export default class FlowScene {
         }
     }
 
+    findDrawable(id){
+        if(id===null) return null;
+        for(let drawable of this.drawables) if(drawable?.id===id) return drawable;
+        return null;
+    }
+
 
 
     /** Removes a flowchart drawable object from the scene
