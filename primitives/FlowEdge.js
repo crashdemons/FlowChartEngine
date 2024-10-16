@@ -105,7 +105,7 @@ export default class FlowEdge extends FlowLine { //TODO: abstract so we don't ne
     }
 
     _getConnectedNode(i){
-        return this.ports[i]?.parent;
+        return this.ports[i]?.parentNode;
     }
     getNodeConnections(){
         return {
@@ -113,8 +113,10 @@ export default class FlowEdge extends FlowLine { //TODO: abstract so we don't ne
             end: this._getConnectedNode(FlowEdge.PORT_END),
         };
     }
+
+    /** @return {FlowNode[]} */
     getConnectedNodes(){
-        return this.ports.map(port=>port?.parent);
+        return this.ports.map(port=>port?.parentNode).filter(node=>node!==null);
     }
 
 

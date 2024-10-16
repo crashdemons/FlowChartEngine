@@ -17,7 +17,7 @@ export default class FlowPort extends FlowDrawable {
     portType;
     /** The parent Node that the port is attached to.
      * @type {FlowNode} */
-    parent;
+    parentNode;
     /** An array tracking which edges are connected to this port
      * @type {FlowEdge[]} */
     edges = [];
@@ -96,7 +96,7 @@ export default class FlowPort extends FlowDrawable {
      * @param {FlowNode} parent
      * */
     setParent(parent) {
-        this.parent = parent;
+        this.parentNode = parent;
     }
 
     renderElement($, options = {}) {
