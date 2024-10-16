@@ -121,4 +121,11 @@ export default class FlowNode extends FlowDrawable {
         return $grid;
     }
 
+    beforeRemove() {
+        super.beforeRemove();
+        this.box?.beforeRemove();
+        this.inPorts.forEach(p=>p?.beforeRemove());
+        this.outPorts.forEach(p=>p?.beforeRemove());
+    }
+
 }

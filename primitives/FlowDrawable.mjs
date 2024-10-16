@@ -87,4 +87,9 @@ export default class FlowDrawable extends FlowObject {
         super.dispatchEvent(evt, elem);
     }
 
+    beforeRemove() {
+        super.beforeRemove();
+        this.$element?.remove();
+    }
+
 }

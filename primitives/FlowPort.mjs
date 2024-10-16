@@ -140,4 +140,12 @@ export default class FlowPort extends FlowDrawable {
         this.dispatchEvent(evt, target);
     }
 
+    beforeRemove() {
+        super.beforeRemove();
+        for(let edge of this.edges){
+            edge.disconnectPort(this.id);
+        }
+        this.disconnectEdges();
+    }
+
 }

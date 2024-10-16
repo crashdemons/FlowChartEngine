@@ -163,4 +163,9 @@ export default class FlowEdge extends FlowLine { //TODO: abstract so we don't ne
         return $edge;
     }
 
+    beforeRemove() {
+        super.beforeRemove();
+        this.disconnectPorts();
+    }
+
 }

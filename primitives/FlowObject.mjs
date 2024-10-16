@@ -39,4 +39,6 @@ export default class FlowObject {
         target.dispatchEvent(evt);
     }
 
+    beforeRemove(){}
+
 }

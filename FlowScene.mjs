@@ -63,6 +63,7 @@ export default class FlowScene {
      * @param {FlowDrawable} obj
      * */
     removeDrawable(obj){
+        obj.beforeRemove();
         obj.$element?.remove();
         let iFound = -1;
         for(let i=0;i<this.drawables.length;i++){
